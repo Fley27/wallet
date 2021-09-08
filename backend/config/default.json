@@ -1,0 +1,4 @@
+{
+	"mongoUri": "mongodb+srv://Fley027:Fenley2797@cluster0.vprrw.mongodb.net/Wallet?retryWrites=true&w=majority",
+	"jwtSecret": "Encrypt Data String For Wallet"
+}
