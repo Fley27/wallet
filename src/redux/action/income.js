@@ -156,7 +156,6 @@ export const selectIncome = (incomeData) => async (dispatch) => {
         type: SELECTED_INCOME_REQUEST
     })
     try {
-        
         dispatch({
             type: SELECTED_INCOME_SUCCESS,
             payload: incomeData

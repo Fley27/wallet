@@ -1,24 +1,21 @@
 import React from "react";
-import {View, VirtualizedList, StyleSheet} from "react-native";
+import {ActivityIndicator, View, FlatList, StyleSheet} from "react-native";
 import ItemCredit from "./itemCredit";
 
-
-const getItemCount = (data) => 10;
-
-const DATA = [];
-
-const ListCredit = ({navigation, link, getItem}) =>{
-
+const ListCredit = ({navigation, link, isActivated, DATA}) =>{
     return(
         <View style = {styles.container}> 
-            <VirtualizedList
-                data={DATA}
-                initialNumToRender={0}
-                renderItem={({ item }) => <ItemCredit navigation = {navigation} link = {link} item = {item} />}
-                keyExtractor={item => item.id}
-                getItemCount={getItemCount}
-                getItem={getItem}
-            />
+            {
+                DATA ? ( 
+                    <FlatList
+                        data={DATA}
+                        renderItem={({ item }) => <ItemCredit navigation = {navigation} link = {link} item = {item} />}
+                        keyExtractor={item => item._id}
+                    />
+                ): (
+                    <ActivityIndicator size="large" color="#A52A2A" />
+                )
+            }
         </View>
     )
 }
@@ -26,8 +23,15 @@ const ListCredit = ({navigation, link, getItem}) =>{
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: "rgb(230,230,230)"
+        backgroundColor: "rgb(230,230,230)",
+        justifyContent: "center"
+    },
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
     }
 })
+
 
 export default ListCredit;

@@ -1,4 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import PropTypes from "prop-types";
+import { connect } from 'react-redux';
+import { getBorrowing, filterBorrowing } from "../../redux/action/borrowing";
+import { getLoan, filterLoan } from "../../redux/action/loan";
+import { GetUserDetail } from "../../redux/action/auth";
 import { View, Text, Modal, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import ListCredit from "../../component/listCredit";
 import FilterIcon from "../../icons/filterIcon";
@@ -6,7 +11,7 @@ import FloatingButton from "../../component/floatingButton";
 import RadioButton from "../../component/radioButton";
 import {getItemLoan, getItemCredit} from "../../data/data";
 
-const CreditHome = ({navigation}) =>{
+const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUserDetail, ...props}) =>{
 
     const [state, setState] = useState({
         tab: "LO",
@@ -14,6 +19,32 @@ const CreditHome = ({navigation}) =>{
         searchBy: "source",
         orderBy: "ascending"
     });
+
+    useEffect(() => {
+        GetUserDetail(); 
+    }, [])
+
+    useEffect(() => {
+        if(props.auth){
+            if(props.auth.user){
+                if(state.tab === "LO"){
+                    const obj = {
+                        lender: props.auth.user.user.id
+                    }
+                    getLoan(JSON.stringify(obj))
+                }else if (state.tab === "BO"){
+                    const obj = {
+                        borrower: props.auth.user.user.id
+                    }
+                    getBorrowing(JSON.stringify(obj))
+                }
+            }
+        }
+    }, [props.auth.user,state.tab]);
+
+    const selectCredit  = (item) =>{
+        setState(prevState=> ({...prevState, tab: item}))
+    }
 
     const [modal, setModal] = useState(false);
 
@@ -32,13 +63,9 @@ const CreditHome = ({navigation}) =>{
     
     const handleAdd = () =>{
         if(state.tab === "LO")
-            navigation.navigate("AddIncomeScreen")
-        else if (state.tab === "EX")
-            navigation.navigate("AddExpenseScreen")
-    }
-
-    const selectOperation  = (item) =>{
-        setState(prevState=> ({...prevState, tab: item}))
+            navigation.navigate("AddLoanScreen")
+        else if (state.tab === "BO")
+            navigation.navigate("AddBorrowingScreen")
     }
 
     const selectDevice  = (item) =>{
@@ -57,10 +84,10 @@ const CreditHome = ({navigation}) =>{
                 <View style = {styles.graphSection}>
                     <View style = {styles.graphHeaderTabContainer}>
                         <View style = {styles.tabOperation}>
-                            <TouchableOpacity onPress = {()=> selectOperation("LO")} style = {[styles.operationOption, {borderTopLeftRadius: 10, borderBottomLeftRadius: 10} , state.tab === "LO" ? styles.operationOptionSelected : null]}>
+                            <TouchableOpacity onPress = {()=> selectCredit("LO")} style = {[styles.operationOption, {borderTopLeftRadius: 10, borderBottomLeftRadius: 10} , state.tab === "LO" ? styles.operationOptionSelected : null]}>
                                 <Text style = {styles.operationOptionText}>LO</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress = {()=> selectOperation("BO")} style = {[styles.operationOption,{borderTopRightRadius: 10, borderBottomRightRadius: 10},  state.tab === "BO" ? styles.operationOptionSelected : null]}>
+                            <TouchableOpacity onPress = {()=> selectCredit("BO")} style = {[styles.operationOption,{borderTopRightRadius: 10, borderBottomRightRadius: 10},  state.tab === "BO" ? styles.operationOptionSelected : null]}>
                                 <Text style = {styles.operationOptionText}>BO</Text>
                             </TouchableOpacity>
                         </View>
@@ -94,7 +121,7 @@ const CreditHome = ({navigation}) =>{
                         <Text style = {styles.listSearchText}>Sort by</Text>
                         <TouchableOpacity 
                             style = {styles.filterIconContainer}
-                            onPress = {()=>{setModalVisible()}}>
+                            onPress = {()=>{setModalVisible()}}> 
                             <FilterIcon 
                                 width = {25}
                                 height = {25}
@@ -109,12 +136,16 @@ const CreditHome = ({navigation}) =>{
                         getItem = {getItemLoan} 
                         link = {"DetailLoanScreen"} 
                         navigation = {navigation}
+                        isActivated = "loan"
+                        DATA = {props.loan.loans ? props.loan.loans : null}
                     />
                 ): (
                     <ListCredit 
                         getItem = {getItemCredit} 
                         link = {"DetailBorrowingScreen"} 
                         navigation = {navigation}
+                        isActivated = "borrowing"
+                        DATA = {props.borrowing.borrowings ? props.borrowing.borrowings : null}
                     />
                 )
             }
@@ -335,4 +366,20 @@ const styles = StyleSheet.create({
 })
 
 
-export default CreditHome;
+CreditHome.propTypes = {
+    borrowing: PropTypes.object.isRequired,
+    loan: PropTypes.object.isRequired,
+    getBorrowing: PropTypes.func.isRequired,
+    filterBorrowing: PropTypes.func.isRequired,
+    getLoan: PropTypes.func.isRequired,
+    filterLoan: PropTypes.func.isRequired,
+    GetUserDetail: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state) => ({
+    borrowing: state.borrowing, 
+    loan: state.loan,
+    auth: state.auth
+});
+
+export default connect(mapStateToProps, { getLoan, filterLoan, getBorrowing, filterBorrowing, GetUserDetail})(CreditHome);

@@ -3,12 +3,10 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import dateFormat from "dateformat"
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import {getItemIncomeDetail} from "../../../data/data";
 import Delete from "../../../component/deleteconfirmation";
 
 
 const Detail = ({navigation, ...props}) => {
-    const {amount, device, date, type, source} = getItemIncomeDetail;
     const [show, setShow] = useState(false);
 
     const setModalVisible = () =>{

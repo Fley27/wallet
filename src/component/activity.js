@@ -1,13 +1,13 @@
-import React , {useState} from 'react';
+import React from 'react';
 import {
     Text, 
     View,
     TouchableOpacity,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, 
     TextInput,
     StyleSheet} from "react-native";
 
-const ActivityExpense = ({setDecrement, setIncrement}) =>{
+const ActivityExpense = ({setDecrement, setIncrement, onChangeText, value}) =>{
     return(
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
@@ -17,8 +17,10 @@ const ActivityExpense = ({setDecrement, setIncrement}) =>{
                         style = {styles.textInput}
                         placeholder = "Source of your money"
                         autoCapitalize="none"
-                        keyboardType="visible-password"
+                        keyboardType = "ascii-capable"
                         returnKeyType="next"
+                        onChangeText = {onChangeText}
+                        value = {value}
                     />
                     <View style = {styles.buttonContainer}>
                         <TouchableOpacity 

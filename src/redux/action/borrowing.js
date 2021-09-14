@@ -13,9 +13,13 @@ import {
     FILTER_BY_ID_BORROWING_SUCCESS, 
     DELETE_BORROWING_FAIL,
     DELETE_BORROWING_REQUEST,
-    DELETE_BORROWING_SUCCESS
+    DELETE_BORROWING_SUCCESS,
+    link,
+    SELECTED_BORROWING_FAIL,
+    SELECTED_BORROWING_REQUEST,
+    SELECTED_BORROWING_SUCCESS
 } from "../consts";
-import axios from "axios";
+import axios from "axios"; 
 
 export const createBorrowing = (borrowingData) => async (dispatch) => {
     const config = {
@@ -26,10 +30,9 @@ export const createBorrowing = (borrowingData) => async (dispatch) => {
     dispatch({
         type: CREATE_BORROWING_REQUEST
     })
-    const body = JSON.stringify(borrowingData);
     try {
         const res = await axios.post(`${link}/borrowing`, 
-            body,
+            borrowingData,
             config
         )
         dispatch({
@@ -52,9 +55,9 @@ export const getBorrowing = (borrowingData) => async (dispatch) => {
     dispatch({
         type: GET_BORROWING_REQUEST
     })
-    const body = JSON.stringify(borrowingData);
+    const body = borrowingData;
     try {
-        const res = await axios.get(`${link}/borrowing`, 
+        const res = await axios.post(`${link}/borrowing/all`, 
             body,
             config
         )
@@ -146,3 +149,18 @@ export const deleteBorrowing = (borrowingData) => async (dispatch) => {
     }
 }
 
+export const selectBorrowing = (borrowingData) => async (dispatch) => {
+    dispatch({
+        type: SELECTED_BORROWING_REQUEST
+    })
+    try {
+        dispatch({
+            type: SELECTED_BORROWING_SUCCESS,
+            payload: borrowingData
+        })
+    } catch (error) {
+        dispatch({
+            type: SELECTED_BORROWING_FAIL
+        })
+    }
+}

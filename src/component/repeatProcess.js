@@ -1,7 +1,7 @@
 import React from "react";
 import {Modal, View, TouchableOpacity, Text, StyleSheet} from "react-native";
 
-const RepeatProcess = ({setModalVisible, handleConfirm, show, label}) =>{
+const RepeatProcess = ({setModalVisible, handleConfirm, handleBack, show, label, setTab}) =>{
 
     
     return(
@@ -16,11 +16,11 @@ const RepeatProcess = ({setModalVisible, handleConfirm, show, label}) =>{
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style = {styles.modalTitle}>DO you want to add another {`${label}`} ?</Text>
+                        <Text style = {styles.modalTitle}>Add another {`${label}`} ?</Text>
                         <View style = {styles.buttonContainer}>
                             <TouchableOpacity
                                 style={[styles.button]}
-                                onPress={() => handleConfirm()}
+                                onPress={() => handleBack()}
                             >
                                 <Text style={styles.textStyle}>NO</Text>
                             </TouchableOpacity>
@@ -32,7 +32,7 @@ const RepeatProcess = ({setModalVisible, handleConfirm, show, label}) =>{
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </View> 
             </Modal>
         </>
     )
@@ -44,13 +44,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        marginTop: 22,
+        width: "100%"
     },
     modalView: {
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
         padding: 35,
+        justifyContent: "center",
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -60,27 +62,35 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        width: "65%",
+        width: "80%",
+        height: 200
     },
     modalTitle: {
         fontSize: 18,
-        fontWeight: "700",
+        fontWeight: "600",
         color: "#000"
     },
+    buttonContainer:{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "60%"
+    },
     button: {
-        borderRadius: 30,
+        borderRadius: 5,
         padding: 10,
         elevation: 2,
         marginTop: 20,
-        width: 70,
+        width: 60,
+        height: 40,
         flexDirection: "row",
-        backgroundColor: "#A52A2A"
+        backgroundColor: "#A52A2A",
+        textAlign: "center"
     },
     textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center",
-        marginLeft: 15,
+        width: "100%"
     },
     modalText: {
         marginBottom: 15,

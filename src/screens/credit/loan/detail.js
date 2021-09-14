@@ -1,10 +1,13 @@
 import React, {useState} from "react";
+import dateFormat from "dateformat"
+import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import {getItemLoanDetail} from "../../../data/data";
 import Delete from "../../../component/deleteconfirmation";
 
-const Detail = ({navigation}) => {
-    const {amount, device, date, borrower, phone, email, status, paidAt, subStatus, expectedDate} = getItemLoanDetail;
+
+const Detail = ({loan}) => {
+    const {amount, currency, date, name, phone, email, status, paidDate, outLimited, expectedDate} = loan.loan.credit;
     const [show, setShow] = useState(false);
 
     const setModalVisible = () =>{
@@ -13,7 +16,8 @@ const Detail = ({navigation}) => {
     
     const handleConfirm = () =>{
         setShow(!show)
-    }
+    } 
+    
     return(
         <View style = {styles.container}>
             <View style = {styles.container}>
@@ -24,15 +28,15 @@ const Detail = ({navigation}) => {
                         </View>
                         <View style = {styles.amountContainer}>
                             <Text style = {styles.textLabel}>{amount}</Text>
-                            <Text style = {styles.textDevice}>  {device}</Text>
+                            <Text style = {styles.textDevice}>  {currency}</Text>
                         </View>
                     </View>
                     <View style = {styles.header}>
                         <View style = {styles.labelContainer}>
-                            <Text style = {styles.label}>Borrower</Text>
+                            <Text style = {styles.label}>Lender</Text>
                         </View>
                         <View style = {styles.amountContainer}>
-                            <Text style = {styles.textLabel}>{borrower}</Text>
+                            <Text style = {styles.textLabel}>{name}</Text>
                         </View>
                     </View>
                     <View style = {styles.header}>
@@ -56,7 +60,7 @@ const Detail = ({navigation}) => {
                             <Text style = {styles.label}>Date</Text>
                         </View>
                         <View style = {styles.amountContainer}>
-                            <Text style = {styles.textLabel}>{date}</Text>
+                            <Text style = {styles.textLabel}>{dateFormat(date, "mm-dd-yyyy" )}</Text>
                         </View>
                     </View>
                     <View style = {styles.header}>
@@ -66,10 +70,10 @@ const Detail = ({navigation}) => {
                         <View style = {styles.amountContainer}>
                             <Text style = {styles.textLabel}>{status ? "Paid" : "Unpaid" }</Text>
                             <View style = {[styles.statusCircle, styles.device, {marginLeft: 5},
-                                subStatus === true && status === true ? {backgroundColor: "rgb(66, 179, 245)"} : 
-                                subStatus === false && status === true ? {backgroundColor: "rgb(87, 245, 66)"} : 
-                                subStatus === false && status === false ? {backgroundColor: "rgb(245, 120, 66)"}: 
-                                subStatus === true && status === false ? {backgroundColor: "rgb(214, 13, 50)"} : null]}></View>
+                                outLimited === true && status === true ? {backgroundColor: "rgb(66, 179, 245)"} : 
+                                outLimited === false && status === true ? {backgroundColor: "rgb(87, 245, 66)"} : 
+                                outLimited === true && status === false ? {backgroundColor: "rgb(245, 120, 66)"}: 
+                                outLimited === false && status === false ? {backgroundColor: "rgb(214, 13, 50)"} : null]}></View>
                         </View>
                     </View>
                     <View style = {styles.header}>
@@ -77,17 +81,21 @@ const Detail = ({navigation}) => {
                             <Text style = {styles.label}>Expected date</Text>
                         </View>
                         <View style = {styles.amountContainer}>
-                            <Text style = {styles.textLabel}>{expectedDate}</Text>
+                            <Text style = {styles.textLabel}>{dateFormat(expectedDate, "mm-dd-yyyy" )}</Text>
                         </View>
                     </View>
-                    <View style = {styles.header}>
-                        <View style = {styles.labelContainer}>
-                            <Text style = {styles.label}>Due date</Text>
-                        </View>
-                        <View style = {styles.amountContainer}>
-                            <Text style = {styles.textLabel}>{paidAt ? paidAt : ""}</Text>
-                        </View>
-                    </View>
+                    {
+                        paidDate ? (
+                            <View style = {styles.header}>
+                                <View style = {styles.labelContainer}>
+                                    <Text style = {styles.label}>Paid date</Text>
+                                </View>
+                                <View style = {styles.amountContainer}>
+                                    <Text style = {styles.textLabel}>{paidDate ? dateFormat(paidDate, "mm-dd-yyyy" ) : ""}</Text>
+                                </View>
+                            </View>
+                        ): null
+                    }
                 </View>
                 <View style = {styles.buttonContainer}>
                     <TouchableOpacity style = {styles.button}>
@@ -212,4 +220,12 @@ const styles = StyleSheet.create({
     },
 })
 
-export default Detail;
+Detail.propTypes = {
+    loan: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = (state) => ({
+    loan: state.loan, 
+});
+
+export default connect(mapStateToProps)(Detail);

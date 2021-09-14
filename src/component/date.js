@@ -1,71 +1,34 @@
-import React , {useState} from 'react';
+import React, {useState} from 'react';
 import {
     Text, 
     View,
     TouchableOpacity,
     KeyboardAvoidingView,
-    Platform,
-    Button,
     StyleSheet
 } from "react-native";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-date-picker'
 
-const Date = ({setIncrement, onChangeText, value, label}) =>{
-    const [date, setDate] = useState(new Date());
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-
-        setDate(currentDate);
-        setShow(Platform.OS === 'ios' ? true : false);
-    };
-
-    const showMode = currentMode => {
-        setShow(true);
-        setMode(currentMode);
-    };
-
-    const showDatepicker = () => {
-        showMode('date');
-    };
-
-    const showTimepicker = () => {
-        showMode('time');
-    };
-
+const DateComponent = ({handleClick, setDecrement, date, setDate}) =>{
     return(
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Enter the {label}</Text>
-                    <View>
-                        <Button onPress={showDatepicker} title="Show date picker!" />
-                    </View>
-
-                    {
-                        show && (
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                timeZoneOffsetInMinutes={0}
-                                value={date}
-                                mode={mode}
-                                is24Hour={true}
-                                display="default"
-                                onChange={onChange}
-                            />
-                        )
-                    }
+                    <Text style = {styles.label}>Enter the expected date</Text>
+                    <DatePicker
+                        open={true}
+                        date={date} 
+                        onDateChange={setDate}
+                        mode = "date"
+                    />
                     <View style = {styles.buttonContainer}>
-                        <TouchableOpacity onPress = {setDecrement} style = {styles.button}>
+                        <TouchableOpacity onPress = {setDecrement}  style = {styles.button}>
                             <View style = {styles.next}>
                                 <Text style = {styles.textNext}>BACK</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress = {setIncrement} style = {styles.button}>
+                        <TouchableOpacity onPress = {()=>handleClick()} style = {styles.button}>
                             <View style = {styles.next}>
-                                <Text style = {styles.textNext}>NEXT</Text>
+                                <Text style = {styles.textNext}>SUBMIT</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -123,7 +86,7 @@ const styles = StyleSheet.create({
     },
     next:{
         height: 50,
-        width: 300,
+        width: 150,
         borderRadius: 40,
         backgroundColor: "#FFF",
         alignItems: "center",
@@ -139,4 +102,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Date;
+export default DateComponent;

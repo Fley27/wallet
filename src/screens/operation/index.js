@@ -3,6 +3,7 @@ import { View, Text, Modal, TouchableOpacity, TextInput, StyleSheet } from "reac
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { getIncome, filterIncome} from "../../redux/action/income";
+import { getExpense, filterExpense } from "../../redux/action/expense";
 import {GetUserDetail} from  "../../redux/action/auth";
 import ListOperation from '../../component/listOperation';
 import FilterIcon from "../../icons/filterIcon";
@@ -10,7 +11,7 @@ import FloatingButton from "../../component/floatingButton";
 import RadioButton from "../../component/radioButton";
 import {getItemIncome, getItemExpense} from "../../data/data";
 
-const OperationHome = ({navigation, GetUserDetail, getIncome, filterIncome, ...props}) =>{
+const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filterIncome, ...props}) =>{
 
     const [state, setState] = useState({
         tab: "IC",
@@ -31,10 +32,15 @@ const OperationHome = ({navigation, GetUserDetail, getIncome, filterIncome, ...p
                         id : props.auth.user.user.id
                     }
                     getIncome(JSON.stringify(obj))
+                }else if(state.tab === "EX"){
+                    const obj = {
+                        id : props.auth.user.user.id
+                    }
+                    getExpense(JSON.stringify(obj))
                 }
             }
         }
-    }, [props.auth.user])
+    }, [props.auth.user, state.tab])
 
     const [modal, setModal] = useState(false);
 
@@ -138,6 +144,8 @@ const OperationHome = ({navigation, GetUserDetail, getIncome, filterIncome, ...p
                         getItem = {getItemExpense} 
                         link = {"DetailExpenseScreen"} 
                         navigation = {navigation}
+                        isActivated = "expense"
+                        DATA = {props.expense.expenses ? props.expense.expenses : null}
                     />
                 )
             }
@@ -361,12 +369,15 @@ OperationHome.propTypes = {
     income: PropTypes.object.isRequired,
     getIncome: PropTypes.func.isRequired,
     filterIncome: PropTypes.func.isRequired,
-    GetUserDetail: PropTypes.func.isRequired
+    GetUserDetail: PropTypes.func.isRequired,
+    getExpense: PropTypes.func.isRequired,
+    filterExpense: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
     income: state.income, 
-    auth: state.auth
+    auth: state.auth,
+    expense: state.expense
 });
 
-export default connect(mapStateToProps, { getIncome, filterIncome, GetUserDetail})(OperationHome);
+export default connect(mapStateToProps, {getExpense, filterExpense, getIncome, filterIncome, GetUserDetail})(OperationHome);

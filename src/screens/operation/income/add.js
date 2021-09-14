@@ -1,7 +1,7 @@
 import React , {useState, useEffect } from "react";
 import {View, StyleSheet} from "react-native";
 import { connect } from 'react-redux';
-import { createIncome} from "../../../redux/action/income";
+import { createIncome, selectIncome} from "../../../redux/action/income";
 import {GetUserDetail} from  "../../../redux/action/auth";
 import PropTypes from "prop-types";
 import Amount from "../../../component/amount";
@@ -11,7 +11,7 @@ import Source from "../../../component/sourceIncome";
 import RepeatProcess from "../../../component/repeatProcess";
 import {typeIncome} from "../../../data/data"
 
-const AddIncome = ({navigation, createIncome, GetUserDetail, ...props}) =>{ 
+const AddIncome = ({navigation, createIncome, GetUserDetail, selectIncome, ...props}) =>{ 
 
     const [tab, setTab] = useState(0);
     const [amount, setChangeAmount] = useState("");
@@ -25,13 +25,31 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, ...props}) =>{
         setShow(!show)
     }
     
-    const handleConfirm = () =>{
-        setShow(!show)
+    const handleNoRepeat = () =>{
+        setShow(!show);
+        navigation.navigate("OperationHomeScreen")
+        selectIncome(null)
+    }
+
+    const handleRepeat = () =>{
+        setShow(!show);
+        setChangeAmount("");
+        setChangeCurrency("");
+        setChangeCategory("");
+        setChangeSource("");
+        setTab(0);
     }
 
     useEffect(() => {
         GetUserDetail();
     }, [])
+
+    useEffect(() => {
+        if(props.income.income){
+            setShow(true)
+        }
+
+    }, [props.income.income])
 
     const setIncrement = () =>{
         const index = tab + 1;
@@ -93,7 +111,8 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, ...props}) =>{
             <RepeatProcess
                 show = {show}
                 setModalVisible = {setModalVisible}
-                handleConfirm = {handleConfirm}
+                handleConfirm = {handleRepeat}
+                handleBack = {handleNoRepeat}
                 label = "income"
             />
         </View>
@@ -114,7 +133,8 @@ AddIncome.propTypes = {
     income: PropTypes.object.isRequired,   
     auth: PropTypes.object.isRequired,    
     createIncome: PropTypes.func.isRequired,
-    GetUserDetail: PropTypes.func.isRequired
+    GetUserDetail: PropTypes.func.isRequired,
+    selectIncome: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -122,4 +142,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, {createIncome,GetUserDetail})(AddIncome);
+export default connect(mapStateToProps, {createIncome,GetUserDetail, selectIncome})(AddIncome);

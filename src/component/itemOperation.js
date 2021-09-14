@@ -3,13 +3,19 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { selectIncome} from "../redux/action/income";
+import { selectExpense } from "../redux/action/expense";
 import dateFormat from "dateformat"
 
-const ItemOperation = ({item, navigation, link, selectIncome}) =>{
+const ItemOperation = ({item, navigation, link, selectExpense, selectIncome}) =>{
 
     const handleDetail = () =>{
-        selectIncome(item)
-        navigation.navigate(link);
+        if(link === "DetailIncomeScreen"){
+            selectIncome(item)
+            navigation.navigate(link);
+        }else if(link === "DetailExpenseScreen"){
+            selectExpense(item)
+            navigation.navigate(link);   
+        }
     }
 
     return(
@@ -87,6 +93,7 @@ const styles = StyleSheet.create({
 
 ItemOperation.propTypes = {
     selectIncome: PropTypes.func.isRequired,
+    selectExpense: PropTypes.func.isRequired,
 }
 
-export default connect(null, { selectIncome})(ItemOperation);
+export default connect(null, { selectIncome, selectExpense})(ItemOperation);

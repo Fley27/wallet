@@ -1,35 +1,44 @@
 import React from "react";
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import PropTypes from "prop-types";
+import { connect } from 'react-redux';
+import { selectBorrowing} from "../redux/action/borrowing";
+import { selectLoan } from "../redux/action/loan";
+import dateFormat from "dateformat";
 
-const ItemCredit = ({item, navigation, link}) =>{
+const ItemCredit = ({item, navigation, link, selectBorrowing, selectLoan}) =>{
 
     const handleDetail = () =>{
+        if(link === "DetailLoanScreen")
+            selectLoan(item);
+        else if(link === "DetailBorrowingScreen")
+            selectBorrowing(item);
         navigation.navigate(link);
     }
 
     return(
-        <TouchableOpacity onPress = {handleDetail}
+        <TouchableOpacity onPress = {handleDetail} 
             style = {styles.container} >
             <View style = {styles.subContainer}>
                 <View style = {styles.header}>
                     <View style = {styles.amountContainer}>
-                        <Text style = {styles.textAmount}>{item.amount}</Text>
-                        <Text style = {styles.textDevice}>  {item.device}</Text>
+                        <Text style = {styles.textAmount}>{item.credit.amount}</Text>
+                        <Text style = {styles.textDevice}>  {item.credit.currency}</Text>
                     </View>
                     <View style = {styles.statusContainer}>
                         <View style = {styles.statusTextContainer}>
-                            <Text style = {styles.statusText}>{item.status ? "Paid" : "Unpaid" }</Text>
+                            <Text style = {styles.statusText}>{item.credit.status ? "Paid" : "Unpaid" }</Text>
                         </View>
                         <View style = {[styles.statusCircle, 
-                            item.subStatus === true && item.status === true ? {backgroundColor: "rgb(66, 179, 245)"} : 
-                            item.subStatus === false && item.status === true ? {backgroundColor: "rgb(87, 245, 66)"} : 
-                            item.subStatus === true && item.status === false ? {backgroundColor: "rgb(245, 120, 66)"}: 
-                            item.subStatus === false && item.status === false ? {backgroundColor: "rgb(214, 13, 50)"} : null]}></View>
+                            item.credit.outLimited === true && item.credit.status === true ? {backgroundColor: "rgb(66, 179, 245)"} : 
+                            item.credit.outLimited === false && item.credit.status === true ? {backgroundColor: "rgb(87, 245, 66)"} : 
+                            item.credit.outLimited === true && item.credit.status === false ? {backgroundColor: "rgb(245, 120, 66)"}: 
+                            item.credit.outLimited === false && item.credit.status === false ? {backgroundColor: "rgb(214, 13, 50)"} : null]}></View>
                     </View>
                 </View>
                 <View style = {styles.typeContainer}>
-                    <Text style = {styles.type}>{item.borrower ? item.borrower : item.lender}</Text>
-                    <Text style = {styles.textDate}>{item.date}</Text>
+                    <Text style = {styles.type}>{item.credit.name}</Text>
+                    <Text style = {styles.textDate}>{dateFormat(item.credit.date, "mm / dd / yyyy" )}</Text> 
                 </View>
             </View>
         </TouchableOpacity>
@@ -111,4 +120,8 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ItemCredit;
+ItemCredit.propTypes = {
+    selectBorrowing: PropTypes.func.isRequired,
+}
+
+export default connect(null, { selectBorrowing, selectLoan})(ItemCredit);

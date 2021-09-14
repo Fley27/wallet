@@ -7,7 +7,7 @@ import {
     TextInput,
     StyleSheet} from "react-native";
 
-const Phone = ({setIncrement, onChangeText, value}) =>{
+const Phone = ({setIncrement, setDecrement, onChangeText, value}) =>{
     return(
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     },
     next:{
         height: 50,
-        width: 300,
+        width: 150,
         borderRadius: 40,
         backgroundColor: "#FFF",
         alignItems: "center",

@@ -3,7 +3,8 @@ import {TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import NavigationDrawerHeader from './navigationDrawerHeader'
 import CreditHomeScreen from '../screens/credit/index';
-import AddIncomeScreen from '../screens/operation/income/add';
+import AddBorrowingScreen from '../screens/credit/borrowing/add';
+import AddLoanScreen from '../screens/credit/loan/add';
 import DetailBorrowingScreen from '../screens/credit/borrowing/detail';
 import DetailLoanScreen from '../screens/credit/loan/detail';
 
@@ -64,10 +65,26 @@ const CreditNavigation = ({navigation}) => {
                 }}
             />
             <Stack.Screen
-                name="AddIncomeScreen"
-                component={AddIncomeScreen}
+                name="AddBorrowingScreen"
+                component={AddBorrowingScreen}
                 options={{
-                    title: 'New Income', //Set Header Title
+                    title: 'New Borrowing', //Set Header Title
+                    
+                    headerStyle: {
+                      backgroundColor: '#A52A2A', //Set Header color
+                    },
+                    headerTintColor: '#fff', //Set Header text color
+                    headerTitleStyle: {
+                        fontWeight: 'bold', 
+                        alignSelf: 'center' 
+                    },
+                }}
+            />
+            <Stack.Screen
+                name="AddLoanScreen"
+                component={AddLoanScreen}
+                options={{
+                    title: 'New Loan', //Set Header Title
                     
                     headerStyle: {
                       backgroundColor: '#A52A2A', //Set Header color

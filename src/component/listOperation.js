@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {View, FlatList, Text, StyleSheet} from "react-native";
+import {View, FlatList, ActivityIndicator, StyleSheet} from "react-native";
 import ItemOperation from './itemOperation';
 
 
@@ -15,9 +15,7 @@ const ListOperation = ({navigation, link, isActivated, DATA}) =>{
                         keyExtractor={item => item._id}
                     />
                 ): (
-                    <View>
-                        <Text>No {isActivated} yet.</Text>
-                    </View>
+                    <ActivityIndicator size="large" color="#A52A2A" />
                 )
             }
         </View>
@@ -27,7 +25,13 @@ const ListOperation = ({navigation, link, isActivated, DATA}) =>{
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: "rgb(230,230,230)"
+        backgroundColor: "rgb(230,230,230)",
+        justifyContent: "center"
+    },
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
     }
 })
 

@@ -13,7 +13,11 @@ import {
     FILTER_BY_ID_LOAN_SUCCESS, 
     DELETE_LOAN_FAIL,
     DELETE_LOAN_REQUEST,
-    DELETE_LOAN_SUCCESS
+    DELETE_LOAN_SUCCESS,
+    link, 
+    SELECTED_LOAN_FAIL,
+    SELECTED_LOAN_REQUEST,
+    SELECTED_LOAN_SUCCESS
 } from "../consts";
 import axios from "axios";
 
@@ -26,7 +30,7 @@ export const createLoan = (loanData) => async (dispatch) => {
     dispatch({
         type: CREATE_LOAN_REQUEST
     })
-    const body = JSON.stringify(loanData);
+    const body = loanData;
     try {
         const res = await axios.post(`${link}/loan`, 
             body,
@@ -52,9 +56,9 @@ export const getLoan = (loanData) => async (dispatch) => {
     dispatch({
         type: GET_LOAN_REQUEST
     })
-    const body = JSON.stringify(loanData);
+    const body = loanData;
     try {
-        const res = await axios.get(`${link}/loan`, 
+        const res = await axios.post(`${link}/loan/all`, 
             body,
             config
         )
@@ -145,4 +149,21 @@ export const deleteLoan = (loanData) => async (dispatch) => {
         })
     }
 }
+
+export const selectLoan = (loanData) => async (dispatch) => {
+    dispatch({
+        type: SELECTED_LOAN_REQUEST
+    })
+    try {
+        dispatch({
+            type: SELECTED_LOAN_SUCCESS,
+            payload: loanData
+        })
+    } catch (error) {
+        dispatch({
+            type: SELECTED_LOAN_FAIL
+        })
+    }
+}
+
 

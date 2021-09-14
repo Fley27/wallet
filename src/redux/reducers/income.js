@@ -30,11 +30,15 @@ export default function ( state = initialState, action) {
     switch (type) {
         case SELECTED_INCOME_REQUEST: 
         case CREATE_INCOME_REQUEST:
-        case GET_INCOME_REQUEST:
             return {
                 ...state, 
                 loading: true,
                 income: null,
+            }
+        case GET_INCOME_REQUEST:
+            return {
+                ...state, 
+                loading: true,
                 incomes: null
             }
         case DELETE_INCOME_REQUEST: {

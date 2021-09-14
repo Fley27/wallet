@@ -2,13 +2,15 @@ const express = require("express");
 const router = express.Router();
 const Expense = require("../../models/expense");
 const Operation = require("../../models/operation");
+const ObjectId = require("bson-objectid");
 
 // Create an expense
 
 router.post("/", async (req, res)=>{
     try {
-        const {amount, user, category, activity, description} = req.body;
+        const {amount, currency, user, category, activity, description} = req.body;
         const operation = new Operation({amount, currency, user, category});
+        console.log(req.body)
         await operation.save();
         if(!operation)
             return res.status(404).json({msg: "Process interrupted"});
@@ -23,10 +25,29 @@ router.post("/", async (req, res)=>{
 
 // Fetch the last 20 expenses
 
-router.get("/", async (req, res)=>{
+router.post("/all", async (req, res)=>{
     try {
-        const expenses = await Expense.find().populate("operation").limit(20).sort({date: 1});
-        return res.json(expenses);
+        const {id} = req.body;
+        Operation.aggregate([
+            {
+                $match: {
+                    user: ObjectId(id)
+                }
+            },
+            {
+                $lookup:{
+                    from: "expenses",
+                    localField: "_id",
+                    foreignField: "operation",
+                    as: "data"
+                }
+            },
+            {
+                $unwind : "$data"
+            },
+        ]).exec(function(err, obj){
+            return res.json(obj)
+        })
     } catch (error) {
         console.log(`Server : ${error}`);
         return res.status(500).json({msg: `Server : ${error}`});

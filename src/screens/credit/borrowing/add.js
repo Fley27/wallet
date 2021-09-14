@@ -1,32 +1,55 @@
 import React , {useState, useEffect } from "react";
 import {View, StyleSheet} from "react-native";
 import { connect } from 'react-redux';
-import { createBorrowing} from "../../../redux/action/borrowing";
+import { createBorrowing, selectBorrowing} from "../../../redux/action/borrowing";
 import {GetUserDetail} from  "../../../redux/action/auth";
 import PropTypes from "prop-types";
 import Amount from "../../../component/amount";
+import Name from "../../../component/name";
 import Currency from '../../../component/currency';
-import Type from "../../../component/type";
-import Source from "../../../component/sourceIncome";
+import DateComponent from "../../../component/date";
+import Phone from "../../../component/phone";
+import Email from "../../../component/email";
 import RepeatProcess from "../../../component/repeatProcess";
-import {typeIncome} from "../../../data/data"
 
-const Add = ({navigation, createIncome, GetUserDetail, ...props}) =>{ 
+const Add = ({navigation, createBorrowing, selectBorrowing, GetUserDetail, ...props}) =>{ 
 
     const [tab, setTab] = useState(0);
     const [amount, setChangeAmount] = useState("");
+    const [name, setName] = useState("");
     const [currency, setChangeCurrency] = useState("");
-    const [category, setChangeCategory] = useState("");
-    const [source, setChangeSource] = useState("");
+    const [phone, setChangePhone] = useState("");
+    const [email, setChangeEmail] = useState("");
+    const [expectedDate, setChangeExpectedDate] = useState(new Date());
 
     const [show, setShow] = useState(false);
 
     const setModalVisible = () =>{
         setShow(!show)
     }
+
+    useEffect(() => {
+        if(props.borrowing.borrowing){
+            setShow(true)
+        }
+
+    }, [props.borrowing.borrowing])
     
-    const handleConfirm = () =>{
-        setShow(!show)
+    const handleNoRepeat = () =>{
+        setShow(!show);
+        navigation.navigate("CreditHomeScreen")
+        selectBorrowing(null)
+    }
+
+    const handleRepeat = () =>{
+        setShow(!show);
+        setChangeAmount("");
+        setChangeCurrency("");
+        setChangePhone("");
+        setChangeEmail("");
+        setChangeExpectedDate("");
+        setName("");
+        setTab(0);
     }
 
     useEffect(() => {
@@ -42,16 +65,19 @@ const Add = ({navigation, createIncome, GetUserDetail, ...props}) =>{
         const index = tab - 1;
         setTab(index);
     }
-
+    //amount, currency, status, phone, email, expectedDate, paidDate, borrower
     const handleClick = () =>{
         const obj = {
             amount: amount,
             currency: currency.length ? currency : "USD",
-            category: category.length ? category : "GIFT",
-            source: source,
-            user: props.auth.user.user.id
+            phone: phone,
+            name: name,
+            email: email,
+            paidDate: new Date(),
+            expectedDate: expectedDate,
+            borrower: props.auth.user.user.id
         }
-        createIncome(JSON.stringify(obj))
+        createBorrowing(JSON.stringify(obj));
     }
 
     return(
@@ -71,21 +97,33 @@ const Add = ({navigation, createIncome, GetUserDetail, ...props}) =>{
                             onChangeText = {setChangeCurrency}
                             value = {currency}
                         />
-                    ): tab === 2?(
-                        <Type
+                    ):tab === 2?(
+                        <Name
                             setDecrement = {setDecrement}
                             setIncrement = {setIncrement}
-                            types = {typeIncome}
-                            selectItem = "GIFT"
-                            onChangeText = {setChangeCategory}
-                            value = {category}
+                            onChangeText = {setName}
+                            value = {name}
                         />
                     ): tab === 3?(
-                        <Source
+                        <Email
                             setDecrement = {setDecrement}
-                            onChangeText = {setChangeSource}
+                            setIncrement = {setIncrement}
+                            onChangeText = {setChangeEmail}
+                            value = {email}
+                        />
+                    ):tab === 4?(
+                        <Phone
+                            setDecrement = {setDecrement}
+                            setIncrement = {setIncrement}
+                            onChangeText = {setChangePhone}
+                            value = {phone}
+                        />
+                    ):  tab === 5?(
+                        <DateComponent
+                            date = {expectedDate}
+                            setDate = {setChangeExpectedDate}
+                            setDecrement = {setDecrement}
                             handleClick = {handleClick}
-                            value = {source}
                         />
                     ): null
                 }
@@ -93,7 +131,8 @@ const Add = ({navigation, createIncome, GetUserDetail, ...props}) =>{
             <RepeatProcess
                 show = {show}
                 setModalVisible = {setModalVisible}
-                handleConfirm = {handleConfirm}
+                handleConfirm = {handleRepeat}
+                handleBack = {handleNoRepeat}
                 label = "income"
             />
         </View>
@@ -114,12 +153,13 @@ Add.propTypes = {
     borrowing: PropTypes.object.isRequired,   
     auth: PropTypes.object.isRequired,    
     createBorrowing: PropTypes.func.isRequired,
-    GetUserDetail: PropTypes.func.isRequired
+    GetUserDetail: PropTypes.func.isRequired,
+    selectBorrowing: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-    borrowing: state.income,
+    borrowing: state.borrowing,
     auth: state.auth
 });
 
-export default connect(mapStateToProps, {createBorrowing,GetUserDetail})(Add);
+export default connect(mapStateToProps, {createBorrowing, selectBorrowing, GetUserDetail})(Add);

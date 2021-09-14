@@ -1,45 +1,36 @@
-import React , {useState} from 'react';
+import React from 'react';
 import {
     Text, 
     View,
-    TouchableOpacity,
-    KeyboardAvoidingView, 
     TextInput,
+    TouchableOpacity,
+    KeyboardAvoidingView,
     StyleSheet} from "react-native";
 
-const ReasonExpense = ({setDecrement, onChangeText, value, handleClick}) =>{
+const Name = ({setDecrement, setIncrement, onChangeText, value}) =>{
     return(
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-
-                    <View style = {styles.textContainer}>
-                        <Text style = {styles.label}>Enter a reason</Text>
-                        <Text style = {styles.minimum}>  (optional)</Text>
-                    </View>
-                    
+                    <Text style = {styles.label}>Enter the name of your lender</Text>
                     <TextInput 
                         style = {styles.textInput}
-                        placeholder = "What's your reason?"
+                        placeholder = "John Doe"
                         autoCapitalize="none"
-                        keyboardType="twitter"
+                        keyboardType = "ascii-capable"
                         returnKeyType="next"
-                        multiline
-                        maxLength={40}
-                        numberOfLines={4}
                         onChangeText = {onChangeText}
                         value = {value}
                     />
-
                     <View style = {styles.buttonContainer}>
                         <TouchableOpacity onPress = {setDecrement} style = {styles.button}>
                             <View style = {styles.next}>
                                 <Text style = {styles.textNext}>BACK</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress = {()=>handleClick()} style = {styles.button}>
+                        <TouchableOpacity onPress = {setIncrement} style = {styles.button}>
                             <View style = {styles.next}>
-                                <Text style = {styles.textNext}>SUBMIT</Text>
+                                <Text style = {styles.textNext}>NEXT</Text>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -67,18 +58,8 @@ const styles = StyleSheet.create({
     viewContainer:{
         flex: 1,
     },
-    textContainer:{
-        flexDirection: "row",
-        alignItems: "center",
-    },
     label:{
         fontSize: 22,
-        color: "#000",
-        fontWeight: "700",
-        marginBottom: 13
-    },
-    minimum:{
-        fontSize: 10,
         color: "#000",
         fontWeight: "700",
         marginBottom: 13
@@ -89,7 +70,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 10,
         borderColor: '#808080',
-        height: 120,
+        height: 60,
         backgroundColor: "#FFF",
         paddingLeft: 10,
         paddingRight: 10,
@@ -98,7 +79,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer:{
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
         alignItems: "center",
         marginBottom: 30
     },
@@ -123,4 +104,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ReasonExpense;
+export default Name;

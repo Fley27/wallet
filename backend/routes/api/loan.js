@@ -7,9 +7,10 @@ const Credit = require("../../models/credit");
 
 router.post("/", async (req, res)=>{
     try {
-        const {amount, currency, status, phone, email, expectedDate, dueDate, lender} = req.body;
+        const {amount, currency, status, phone, email, expectedDate, name, lender} = req.body;
+        console.log(JSON.stringify(req.body))
 
-        const credit = new Credit({amount, currency, status, phone, email, expectedDate, dueDate});
+        const credit = new Credit({amount, name, currency, status, phone, email, expectedDate});
         await credit.save();
 
         if (!credit)
@@ -27,9 +28,10 @@ router.post("/", async (req, res)=>{
 
 // Fetch the last 20 loans
 
-router.get("/", async (req, res)=>{
+router.post("/all", async (req, res)=>{
     try {
-        const loan = await Loan.find().populate("credit").limit(20).sort({date: 1});
+        const {lender} = req.body;
+        const loan = await Loan.find({lender}).populate("credit").limit(20).sort({date: 1});
         return res.json(loan);
     } catch (error) {
         console.log(`Server : ${error}`);
