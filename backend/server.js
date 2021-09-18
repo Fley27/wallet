@@ -24,5 +24,9 @@ app.use("/api/expense", require("./routes/api/expense"));
 app.use("/api/income", require("./routes/api/income"));
 app.use("/api/loan", require("./routes/api/loan"));
 
+app.get("*", (req, res) => {
+    res.send("OK")
+});
+
 
 app.listen(port, () => console.log(`Server runing on port ${port}`));
