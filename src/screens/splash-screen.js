@@ -1,16 +1,15 @@
 import React ,{useEffect} from "react";
 import {ActivityIndicator, View, StyleSheet, Image} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import PropTypes from "prop-types";
+import { connect } from 'react-redux';
 
-const SplashScreen = ({navigation}) =>{
+const SplashScreen = ({navigation, ...props}) =>{
 
     useEffect(() => {
         setTimeout(() => {
-            AsyncStorage.getItem('token').then((value) =>
-                navigation.replace(
-                    value !== null ? "Connection" : 'Connection'
-                ),
-            );
+            if(props.auth){
+                props.auth.token !== null ? navigation.replace("Home") : navigation.replace("Connection")
+            }
         }, 3000);
     }, []);
 
@@ -57,4 +56,13 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SplashScreen;
+SplashScreen.propTypes = {
+    auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
+
+export default connect (mapStateToProps)(SplashScreen);
+

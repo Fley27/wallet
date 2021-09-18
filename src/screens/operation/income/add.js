@@ -1,5 +1,5 @@
 import React , {useState, useEffect } from "react";
-import {View, StyleSheet} from "react-native";
+import {ActivityIndicator, View, StyleSheet} from "react-native";
 import { connect } from 'react-redux';
 import { createIncome, selectIncome} from "../../../redux/action/income";
 import {GetUserDetail} from  "../../../redux/action/auth";
@@ -28,7 +28,7 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, selectIncome, ...pr
     const handleNoRepeat = () =>{
         setShow(!show);
         navigation.navigate("OperationHomeScreen")
-        selectIncome(null)
+        selectIncome(null);
     }
 
     const handleRepeat = () =>{
@@ -38,6 +38,7 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, selectIncome, ...pr
         setChangeCategory("");
         setChangeSource("");
         setTab(0);
+        selectIncome(null);
     }
 
     useEffect(() => {
@@ -74,40 +75,46 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, selectIncome, ...pr
 
     return(
         <View style = {styles.container}>
-            <View style = {styles.tabContainer}>
-                {
-                    tab === 0 ? (
-                        <Amount 
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeAmount}
-                            value = {amount}
-                        />
-                    ): tab === 1?(
-                        <Currency 
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeCurrency}
-                            value = {currency}
-                        />
-                    ): tab === 2?(
-                        <Type
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            types = {typeIncome}
-                            selectItem = "GIFT"
-                            onChangeText = {setChangeCategory}
-                            value = {category}
-                        />
-                    ): tab === 3?(
-                        <Source
-                            setDecrement = {setDecrement}
-                            onChangeText = {setChangeSource}
-                            handleClick = {handleClick}
-                            value = {source}
-                        />
-                    ): null
-                }
-            </View>
+            {
+                props.income.loading ? (
+                    <ActivityIndicator size="large" color="#A52A2A" />
+                ): (
+                    <View style = {styles.tabContainer}>
+                        {
+                            tab === 0 ? (
+                                <Amount 
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeAmount}
+                                    value = {amount}
+                                />
+                            ): tab === 1?(
+                                <Currency 
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeCurrency}
+                                    value = {currency}
+                                />
+                            ): tab === 2?(
+                                <Type
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    types = {typeIncome}
+                                    selectItem = "GIFT"
+                                    onChangeText = {setChangeCategory}
+                                    value = {category}
+                                />
+                            ): tab === 3?(
+                                <Source
+                                    setDecrement = {setDecrement}
+                                    onChangeText = {setChangeSource}
+                                    handleClick = {handleClick}
+                                    value = {source}
+                                />
+                            ): null
+                        }
+                    </View>
+                )
+            }
             <RepeatProcess
                 show = {show}
                 setModalVisible = {setModalVisible}
@@ -123,6 +130,12 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, selectIncome, ...pr
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: "center"
+    },
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
     },
     tabContainer:{
         flex: 1

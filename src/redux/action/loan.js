@@ -17,10 +17,67 @@ import {
     link, 
     SELECTED_LOAN_FAIL,
     SELECTED_LOAN_REQUEST,
-    SELECTED_LOAN_SUCCESS
+    SELECTED_LOAN_SUCCESS,
+    FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_FAIL,
+    FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_REQUEST,
+    FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_SUCCESS,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
 } from "../consts";
 import axios from "axios";
 
+export const getTotalAmountTheLastSixMonthLoan = (loanData) => async (dispatch) => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+        } 
+    }
+    dispatch({
+        type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST
+    })
+    const body = loanData;
+    try {
+        const res = await axios.post(`${link}/loan/sum-last-six-month`, 
+            body,
+            config
+        )
+        dispatch({
+            type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL
+        })
+    }
+}
+
+export const getTotalAmountByCurrencyLoan = (loanData) => async (dispatch) => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+        } 
+    }
+    dispatch({
+        type: FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_REQUEST
+    })
+    const body = loanData;
+    try {
+        const res = await axios.post(`${link}/loan/sum-by-currency`, 
+            body,
+            config
+        )
+        dispatch({
+            type: FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_FAIL
+        })
+    }
+}
 export const createLoan = (loanData) => async (dispatch) => {
     const config = {
         headers:{

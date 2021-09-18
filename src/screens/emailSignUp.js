@@ -1,35 +1,34 @@
-import React from 'react';
+import React , {useState} from 'react';
 import {
     Text, 
     View,
-    TextInput,
-    TouchableHighlight,
+    TouchableOpacity,
     KeyboardAvoidingView,
+    TextInput,
     StyleSheet} from "react-native";
 
-const EmailSignUp = ({navigation}) =>{
-
-    const handlePassword = () =>{
-        navigation.replace("PasswordSignUp")
-    }
-
+const Email = ({setIncrement, onChangeText, value}) =>{
     return(
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Enter a valid email</Text>
+                    <Text style = {styles.label}>Enter your email</Text>
                     <TextInput 
                         style = {styles.textInput}
-                        placeholder = "johndoe@wallet.com"
+                        placeholder = "johndoe@gmail.com"
                         autoCapitalize="none"
-                        keyboardType="email-address"
+                        keyboardType= "email-address"
                         returnKeyType="next"
+                        onChangeText = {onChangeText}
+                        value = {value}
                     />
-                    <TouchableHighlight onPress = {handlePassword} style = {styles.button}>
-                        <View style = {styles.next}>
-                            <Text style = {styles.textNext}>NEXT</Text>
-                        </View>
-                    </TouchableHighlight>
+                    <View style = {styles.buttonContainer}>
+                        <TouchableOpacity onPress = {setIncrement} style = {styles.button}>
+                            <View style = {styles.next}>
+                                <Text style = {styles.textNext}>NEXT</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </KeyboardAvoidingView>
         </View>
@@ -73,25 +72,31 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: "#000"
     },
+    buttonContainer:{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: 30
+    },
     button:{
         alignItems:"center"
     },
     next:{
         height: 50,
-        width: 300,
+        width: 150,
         borderRadius: 40,
         backgroundColor: "#FFF",
         alignItems: "center",
         borderWidth: 1.5,
-        borderColor: "#1E90FF",
+        borderColor: "#A52A2A",
         justifyContent: "center",
         marginTop: 5
     },
     textNext:{
-        color: "#1E90FF",
+        color: "#A52A2A",
         fontWeight: "bold",
         fontSize: 16,
     }
 })
 
-export default EmailSignUp;
+export default Email;

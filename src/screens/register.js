@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Text, Image, View, TouchableHighlight, StyleSheet} from "react-native";
+import React from 'react';
+import {Text, Image, View, TouchableOpacity, StyleSheet} from "react-native";
 import Logo from "../images/des.png";
 
 
 const Register = ({navigation}) =>{
 
     const handleEmail = () =>{
-        navigation.replace("SignUpNavigation")
+        navigation.navigate("SignUpNavigation")
     }
 
     return(
@@ -24,27 +24,13 @@ const Register = ({navigation}) =>{
                 <View >
                     <Text style = {styles.caption}>Sign Up</Text>
                 </View>
-                <TouchableHighlight onPress = {handleEmail}>
+                <TouchableOpacity onPress = {handleEmail}>
                     <View style = {styles.email}>
                         <Text style = {styles.textEmail}>
-                            Continue with Email
+                            Continue
                         </Text>
                     </View>
-                </TouchableHighlight>
-                <TouchableHighlight>
-                    <View style = {styles.google}>
-                        <Text style = {styles.textGoogle}>
-                            Continue with Google
-                        </Text>
-                    </View>
-                </TouchableHighlight>
-                <TouchableHighlight>
-                    <View style = {styles.facebook}>
-                        <Text style = {styles.textFacebook}>
-                            Continue with Facebook
-                        </Text>
-                    </View>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
         </View>
     )

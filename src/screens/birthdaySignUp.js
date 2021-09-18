@@ -1,8 +1,9 @@
 import React , {useState} from 'react';
 import {
+    SafeAreaView,
     Text, 
     View,
-    TouchableHighlight,
+    TouchableOpacity,
     KeyboardAvoidingView,
     TextInput,
     StyleSheet} from "react-native";
@@ -18,7 +19,7 @@ const BirthdaySignUp = ({navigation}) =>{
     }
 
     return(
-        <View style = {styles.container}>
+        <SafeAreaView style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
                     <Text style = {styles.label}>Enter your age</Text>
@@ -29,14 +30,14 @@ const BirthdaySignUp = ({navigation}) =>{
                         keyboardType="numeric"
                         returnKeyType="next"
                     />
-                    <TouchableHighlight onPress = {handleCountry} style = {styles.button}>
+                    <TouchableOpacity onPress = {handleCountry} style = {styles.button}>
                         <View style = {styles.next}>
                             <Text style = {styles.textNext}>NEXT</Text>
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
-        </View>
+        </SafeAreaView>
     )
 }
 

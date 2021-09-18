@@ -5,4 +5,4 @@ const loanSchema = mongoose.Schema({
     credit: { type: mongoose.Schema.Types.ObjectId, required: true, ref : "credit"},
 });
 
-module.exports = Loan = mongoose.model("loan", loanSchema);
+module.exports = Loan = mongoose.model("loan", loanSchema); 

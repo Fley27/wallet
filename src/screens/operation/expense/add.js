@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createExpense, selectExpense} from "../../../redux/action/expense";
 import {GetUserDetail} from  "../../../redux/action/auth";
 import PropTypes from "prop-types";
-import {View, StyleSheet} from "react-native";
+import {ActivityIndicator, View, StyleSheet} from "react-native";
 import Amount from "../../../component/amount";
 import Device from '../../../component/currency';
 import Type from "../../../component/type";
@@ -40,7 +40,8 @@ const AddExpense = ({navigation, createExpense,selectExpense, GetUserDetail, ...
         setChangeCurrency("");
         setChangeCategory("");
         setChangeReason("");
-        setChangeActivity("")
+        setChangeActivity("");
+        selectExpense(null);
         setTab(0);
     }
 
@@ -79,47 +80,53 @@ const AddExpense = ({navigation, createExpense,selectExpense, GetUserDetail, ...
 
     return(
         <View style = {styles.container}>
-            <View style = {styles.tabContainer}>
-                {
-                    tab === 0 ? (
-                        <Amount 
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeAmount}
-                            value = {amount}
-                        />
-                    ): tab === 1?(
-                        <Device 
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeCurrency}
-                            value = {currency}
-                        />
-                    ): tab === 2?(
-                        <Type
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            types = {typeExpense}
-                            selectItem = "MANDATORY"
-                            onChangeText = {setChangeCategory}
-                            value = {category}
-                        />
-                    ): tab === 3?(
-                        <Activity
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeActivity}
-                            value = {activity}
-                        />
-                    ): tab === 4?(
-                        <Reason
-                            setDecrement = {setDecrement}
-                            onChangeText = {setChangeReason}
-                            handleClick = {handleClick}
-                            value = {reason}
-                        />
-                    ): null
-                }
-            </View>
+            {
+                props.expense.loading ? (
+                    <ActivityIndicator size="large" color="#A52A2A" />
+                ): (
+                    <View style = {styles.tabContainer}>
+                        {
+                            tab === 0 ? (
+                                <Amount 
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeAmount}
+                                    value = {amount}
+                                />
+                            ): tab === 1?(
+                                <Device 
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeCurrency}
+                                    value = {currency}
+                                />
+                            ): tab === 2?(
+                                <Type
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    types = {typeExpense}
+                                    selectItem = "MANDATORY"
+                                    onChangeText = {setChangeCategory}
+                                    value = {category}
+                                />
+                            ): tab === 3?(
+                                <Activity
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeActivity}
+                                    value = {activity}
+                                />
+                            ): tab === 4?(
+                                <Reason
+                                    setDecrement = {setDecrement}
+                                    onChangeText = {setChangeReason}
+                                    handleClick = {handleClick}
+                                    value = {reason}
+                                />
+                            ): null
+                        }
+                    </View>
+                )
+            }
             <RepeatProcess
                 show = {show}
                 setModalVisible = {setModalVisible}
@@ -135,6 +142,12 @@ const AddExpense = ({navigation, createExpense,selectExpense, GetUserDetail, ...
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: "center"
+    },
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
     },
     tabContainer:{
         flex: 1

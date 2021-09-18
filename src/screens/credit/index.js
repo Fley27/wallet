@@ -20,6 +20,10 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
         orderBy: "ascending"
     });
 
+    const [searchBy, setSearchBy] = useState("amount");
+    const [orderBy, setOrder] = useState("ascending");
+    const [amount_, setAmount] = useState(0);
+
     useEffect(() => {
         GetUserDetail(); 
     }, [])
@@ -27,20 +31,38 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
     useEffect(() => {
         if(props.auth){
             if(props.auth.user){
+                let currency = [], amount = 100000000000;
+                if(state.device === "ALL")
+                    currency = ["USD", "DOP", "HTG"];
+                else{
+                    currency = [];
+                    currency.push(state.device)
+                }
+                if(searchBy === "amount"){
+                    if(amount_ > 0){
+                        amount = parseFloat(amount_);
+                    }
+                }else if(searchBy === "name"){
+                    
+                }
                 if(state.tab === "LO"){
                     const obj = {
-                        lender: props.auth.user.user.id
+                        lender: props.auth.user.user.id,
+                        currency: currency,
+                        amount: amount
                     }
                     getLoan(JSON.stringify(obj))
                 }else if (state.tab === "BO"){
                     const obj = {
-                        borrower: props.auth.user.user.id
+                        borrower: props.auth.user.user.id,
+                        currency: currency,
+                        amount: amount
                     }
                     getBorrowing(JSON.stringify(obj))
                 }
             }
         }
-    }, [props.auth.user,state.tab]);
+    }, [props.auth.user,state.tab, state.device, amount_]);
 
     const selectCredit  = (item) =>{
         setState(prevState=> ({...prevState, tab: item}))
@@ -52,13 +74,12 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
         setModal(!modal)
     }
 
-    const setSearchBy = (item) =>{
-        setState(prevState=> ({...prevState, searchBy: item}));
-        alert(item)
+    const setChangeSearchBy = (item) =>{
+        setSearchBy(item);
     }
 
-    const setOrderBy = (item) =>{
-        setState(prevState=> ({...prevState, orderBy: item}))
+    const setChangeOrder = (item) =>{
+        setOrder(item)
     }
     
     const handleAdd = () =>{
@@ -114,7 +135,9 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
                             style = {styles.textInputList}
                             placeholder = "Search..."
                             autoCapitalize="none"
-                            keyboardType="web-search"
+                            keyboardType= "number-pad"
+                            value= {amount_}
+                            onChangeText = {setAmount}
                         />
                     </View>
                     <View style = {styles.filterContainer}>
@@ -137,7 +160,8 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
                         link = {"DetailLoanScreen"} 
                         navigation = {navigation}
                         isActivated = "loan"
-                        DATA = {props.loan.loans ? props.loan.loans : null}
+                        DATA = {props.loan.loans ? props.loan.loans : []}
+                        loading = {props.loan.loading}
                     />
                 ): (
                     <ListCredit 
@@ -145,7 +169,8 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
                         link = {"DetailBorrowingScreen"} 
                         navigation = {navigation}
                         isActivated = "borrowing"
-                        DATA = {props.borrowing.borrowings ? props.borrowing.borrowings : null}
+                        DATA = {props.borrowing.borrowings ? props.borrowing.borrowings : []}
+                        loading = {props.borrowing.loading}
                     />
                 )
             }
@@ -164,19 +189,10 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
                             <Text style = {styles.modalTitle}>Search by: </Text>
                             <View style = {styles.radioButtonContainer}>
                                 <RadioButton
-                                    value="Source"
-                                    status={ state.searchBy === 'source' ? 'checked' : 'unchecked' }
-                                    onPress={() => setSearchBy('source')}
-                                />
-                                <RadioButton
-                                    value="Amount"
-                                    status={ state.searchBy === 'amount' ? 'checked' : 'unchecked' }
-                                    onPress={() => setSearchBy('amount')}
-                                />
-                                <RadioButton
-                                    value="Type"
-                                    status={ state.searchBy === 'type' ? 'checked' : 'unchecked' }
-                                    onPress={() => setSearchBy('type')}
+                                    value="amount"
+                                    label = "Amount"
+                                    status={ searchBy === 'amount' ? 'checked' : 'unchecked' }
+                                    setChange = {setChangeSearchBy}
                                 />
                             </View>
                         </View>
@@ -185,14 +201,16 @@ const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUser
                             <Text style = {styles.modalTitle}>Order by</Text>
                             <View style = {styles.radioButtonContainer}>
                                 <RadioButton
-                                    value="Ascending"
-                                    status={ state.orderBy === 'ascending' ? 'checked' : 'unchecked' }
-                                    onPress={() => setOrderBy('ascending')}
+                                    value="ascending"
+                                    label="Ascending"
+                                    status={ orderBy === 'ascending' ? 'checked' : 'unchecked' }
+                                    setChange = {setChangeOrder}
                                 />
                                 <RadioButton
-                                    value="Descending"
-                                    status={ state.orderBy === 'descending' ? 'checked' : 'unchecked' }
-                                    onPress={() => setOrderBy('descending')}
+                                    value="descending"
+                                    label="Descending"
+                                    status={ orderBy === 'descending' ? 'checked' : 'unchecked' }
+                                    setChange = {setChangeOrder}
                                 />
                             </View>
                         </View>

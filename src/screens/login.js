@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {
+    ActivityIndicator,
     View,
     Image,
     Text,
@@ -17,8 +18,8 @@ import Logo from "../images/des.png";
 const Login = ({navigation, signIn,  ...props}) =>{
 
     useEffect(() => {
-       props.auth.token !== null ? handleHomepage() : null 
-    }, [props.auth])
+        props.auth.token !== null ? handleHomepage() : null 
+    }, [props.auth]);
 
     const [email, onChangeEmail] = useState("");
     const [password, onChangePassword] = useState("");
@@ -39,88 +40,73 @@ const Login = ({navigation, signIn,  ...props}) =>{
     }
 
     return(
-        <SafeAreaView style = {{flex: 1}}>
-            <View style = {styles.container}>
-                <ScrollView
-                    keyboardShouldPersistTaps="handled"
-                    contentContainerStyle={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                    }}>
-                        <KeyboardAvoidingView
-                            keyboardVerticalOffset = {-180}
-                            behavior = "height"
-                            style = {styles.keyboardAvoiding}>
-                            <View style = {styles.imageContainer}>
-                                <Image
-                                    source={Logo}
-                                    style={styles.image}
-                                />
-                                <Text style = {styles.title}>Take Control Of Your Money</Text>
-                            </View>
-                            <View style = {styles.signInContainer}>
-                                <View style = {styles.textInputContainer}>
-                                    <TextInput
-                                        style = {styles.textInput}
-                                        placeholder = "Email"
-                                        autoCapitalize="none"
-                                        keyboardType="email-address"
-                                        returnKeyType="next"
-                                        value = {email}
-                                        onChangeText = {onChangeEmail}
+        props.auth.loading ?(
+            <ActivityIndicator size="large" color="#A52A2A" />
+        ):(
+            <SafeAreaView style = {{flex: 1}}>
+                <View style = {styles.container}>
+                    <ScrollView
+                        keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                        }}>
+                            <KeyboardAvoidingView
+                                keyboardVerticalOffset = {-180}
+                                behavior = "height"
+                                style = {styles.keyboardAvoiding}>
+                                <View style = {styles.imageContainer}>
+                                    <Image
+                                        source={Logo}
+                                        style={styles.image}
                                     />
-                                    <TextInput
-                                        style = {styles.textInput}
-                                        placeholder = "Password"
-                                        keyboardType = "ascii-capable"
-                                        secureTextEntry = {true}
-                                        value = {password}
-                                        onChangeText = {onChangePassword}
-                                    />
+                                    <Text style = {styles.title}>Take Control Of Your Money</Text>
                                 </View>
-                                <View  style = {styles.buttonSection}>
-                                    <TouchableOpacity style = {styles.forgotPassword}>
-                                        <Text style = {styles.textForgotPassword}>
-                                            Forgot password?
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress =  {()=>handleClick()}>
-                                        <View style = {styles.login}>
-                                            <Text style = {styles.textLogin}>
-                                                SIGN IN
+                                <View style = {styles.signInContainer}>
+                                    <View style = {styles.textInputContainer}>
+                                        <TextInput
+                                            style = {styles.textInput}
+                                            placeholder = "Email"
+                                            autoCapitalize="none"
+                                            keyboardType="email-address"
+                                            returnKeyType="next"
+                                            value = {email}
+                                            onChangeText = {onChangeEmail}
+                                        />
+                                        <TextInput
+                                            style = {styles.textInput}
+                                            placeholder = "Password"
+                                            keyboardType = "ascii-capable"
+                                            secureTextEntry = {true}
+                                            value = {password}
+                                            onChangeText = {onChangePassword}
+                                        />
+                                    </View>
+                                    <View  style = {styles.buttonSection}>
+                                        <TouchableOpacity style = {styles.forgotPassword}>
+                                            <Text style = {styles.textForgotPassword}>
+                                                Forgot password?
                                             </Text>
-                                        </View>
-                                    </TouchableOpacity>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity onPress =  {()=>handleClick()}>
+                                            <View style = {styles.login}>
+                                                <Text style = {styles.textLogin}>
+                                                    SIGN IN
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
+                            <View style = {styles.registerContainer}>
+                                <Text style = {styles.register}> Don't have an account yet? </Text>
+                                    <TouchableOpacity style = {styles.signUpButton} onPress = {handleRegister}><Text style = {styles.textRegister}>SIGN UP</Text></TouchableOpacity>
                             </View>
-                            <View style = {styles.socialMediaButtonContainer}>
-                                <Text style = {styles.textForgotPassword}>or continue with</Text>
-                                <View style = {styles.buttonContainer}>
-                                    <TouchableOpacity>
-                                        <View style = {styles.google}>
-                                            <Text style = {styles.textGoogle}>
-                                                GOOGLE
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity>
-                                        <View style = {styles.facebook}>
-                                            <Text style = {styles.textFacebook}>
-                                                FACEBOOK
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        <View style = {styles.registerContainer}>
-                            <Text style = {styles.register}> Don't have an account yet? </Text>
-                                <TouchableOpacity style = {styles.signUpButton} onPress = {handleRegister}><Text style = {styles.textRegister}>SIGN UP</Text></TouchableOpacity>
-                        </View>
-                    </KeyboardAvoidingView> 
-                </ScrollView>
-            </View>
-        </SafeAreaView>
+                        </KeyboardAvoidingView> 
+                    </ScrollView>
+                </View>
+            </SafeAreaView>
+        )
     )
 }
 
@@ -174,11 +160,13 @@ const styles = StyleSheet.create({
     },
     buttonSection:{
         flex: 1,
-        alignItems: "center"
+        alignItems: "center",
+        position: "relative",
+        top: 60
     },
     forgotPassword:{
-        margin: 10,
-        marginTop: 20
+        position: "relative",
+        top: -30
     },
     textForgotPassword:{
         color: "#000",
@@ -193,7 +181,6 @@ const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderColor: "#FF4500",
         justifyContent: "center",
-        marginTop: 5
     },
     textLogin:{
         color: "#FF4500",
@@ -275,3 +262,25 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect (mapStateToProps, {signIn})(Login);
+
+/*
+<View style = {styles.socialMediaButtonContainer}>
+                                    <Text style = {styles.textForgotPassword}>or continue with</Text>
+                                    <View style = {styles.buttonContainer}>
+                                        <TouchableOpacity>
+                                            <View style = {styles.google}>
+                                                <Text style = {styles.textGoogle}>
+                                                    GOOGLE
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity>
+                                            <View style = {styles.facebook}>
+                                                <Text style = {styles.textFacebook}>
+                                                    FACEBOOK
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+*/

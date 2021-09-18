@@ -22,23 +22,23 @@ const ItemCredit = ({item, navigation, link, selectBorrowing, selectLoan}) =>{
             <View style = {styles.subContainer}>
                 <View style = {styles.header}>
                     <View style = {styles.amountContainer}>
-                        <Text style = {styles.textAmount}>{item.credit.amount}</Text>
-                        <Text style = {styles.textDevice}>  {item.credit.currency}</Text>
+                        <Text style = {styles.textAmount}>{item.amount}</Text>
+                        <Text style = {styles.textDevice}>  {item.currency}</Text>
                     </View>
                     <View style = {styles.statusContainer}>
                         <View style = {styles.statusTextContainer}>
-                            <Text style = {styles.statusText}>{item.credit.status ? "Paid" : "Unpaid" }</Text>
+                            <Text style = {styles.statusText}>{item.status ? "Paid" : "Unpaid" }</Text>
                         </View>
                         <View style = {[styles.statusCircle, 
-                            item.credit.outLimited === true && item.credit.status === true ? {backgroundColor: "rgb(66, 179, 245)"} : 
-                            item.credit.outLimited === false && item.credit.status === true ? {backgroundColor: "rgb(87, 245, 66)"} : 
-                            item.credit.outLimited === true && item.credit.status === false ? {backgroundColor: "rgb(245, 120, 66)"}: 
-                            item.credit.outLimited === false && item.credit.status === false ? {backgroundColor: "rgb(214, 13, 50)"} : null]}></View>
+                            item.outLimited === true && item.status === true ? {backgroundColor: "rgb(66, 179, 245)"} : 
+                            item.outLimited === false && item.status === true ? {backgroundColor: "rgb(87, 245, 66)"} : 
+                            item.outLimited === true && item.status === false ? {backgroundColor: "rgb(245, 120, 66)"}: 
+                            item.outLimited === false && item.status === false ? {backgroundColor: "rgb(214, 13, 50)"} : null]}></View>
                     </View>
                 </View>
                 <View style = {styles.typeContainer}>
-                    <Text style = {styles.type}>{item.credit.name}</Text>
-                    <Text style = {styles.textDate}>{dateFormat(item.credit.date, "mm / dd / yyyy" )}</Text> 
+                    <Text style = {styles.type}>{item.name}</Text>
+                    <Text style = {styles.textDate}>{dateFormat(item.date, "mm / dd / yyyy" )}</Text> 
                 </View>
             </View>
         </TouchableOpacity>

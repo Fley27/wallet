@@ -1,5 +1,5 @@
 import React , {useState, useEffect } from "react";
-import {View, StyleSheet} from "react-native";
+import {ActivityIndicator, View, StyleSheet} from "react-native";
 import { connect } from 'react-redux';
 import { createLoan, selectLoan } from "../../../redux/action/loan";
 import {GetUserDetail} from  "../../../redux/action/auth";
@@ -38,7 +38,7 @@ const Add = ({navigation, createLoan, selectLoan, GetUserDetail, ...props}) =>{
     const handleNoRepeat = () =>{
         setShow(!show);
         navigation.navigate("CreditHomeScreen")
-        selectLoan(null)
+        selectLoan(null);
     }
 
     const handleRepeat = () =>{
@@ -50,6 +50,7 @@ const Add = ({navigation, createLoan, selectLoan, GetUserDetail, ...props}) =>{
         setChangeExpectedDate("");
         setName("");
         setTab(0);
+        selectLoan(null);
     }
 
     useEffect(() => {
@@ -81,52 +82,58 @@ const Add = ({navigation, createLoan, selectLoan, GetUserDetail, ...props}) =>{
 
     return(
         <View style = {styles.container}>
-            <View style = {styles.tabContainer}>
-                {
-                    tab === 0 ? (
-                        <Amount 
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeAmount}
-                            value = {amount}
-                        />
-                    ): tab === 1?(
-                        <Currency 
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeCurrency}
-                            value = {currency}
-                        />
-                    ):tab === 2?(
-                        <Name
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setName}
-                            value = {name}
-                        />
-                    ): tab === 3?(
-                        <Email
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeEmail}
-                            value = {email}
-                        />
-                    ):tab === 4?(
-                        <Phone
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangePhone}
-                            value = {phone}
-                        />
-                    ):  tab === 5?(
-                        <DateComponent
-                            date = {expectedDate}
-                            setDate = {setChangeExpectedDate}
-                            setDecrement = {setDecrement}
-                            handleClick = {handleClick}
-                        />
-                    ): null
-                }
-            </View>
+            {
+                props.loan.loading ? (
+                    <ActivityIndicator size="large" color="#A52A2A" />
+                ):(
+                    <View style = {styles.tabContainer}>
+                        {
+                            tab === 0 ? (
+                                <Amount 
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeAmount}
+                                    value = {amount}
+                                />
+                            ): tab === 1?(
+                                <Currency 
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeCurrency}
+                                    value = {currency}
+                                />
+                            ):tab === 2?(
+                                <Name
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setName}
+                                    value = {name}
+                                />
+                            ): tab === 3?(
+                                <Email
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeEmail}
+                                    value = {email}
+                                />
+                            ):tab === 4?(
+                                <Phone
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangePhone}
+                                    value = {phone}
+                                />
+                            ):  tab === 5?(
+                                <DateComponent
+                                    date = {expectedDate}
+                                    setDate = {setChangeExpectedDate}
+                                    setDecrement = {setDecrement}
+                                    handleClick = {handleClick}
+                                />
+                            ): null
+                        }
+                    </View>
+                )
+            }
             <RepeatProcess
                 show = {show}
                 setModalVisible = {setModalVisible}
@@ -142,6 +149,12 @@ const Add = ({navigation, createLoan, selectLoan, GetUserDetail, ...props}) =>{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: "center"
+    },
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
     },
     tabContainer:{
         flex: 1

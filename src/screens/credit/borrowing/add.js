@@ -1,5 +1,5 @@
 import React , {useState, useEffect } from "react";
-import {View, StyleSheet} from "react-native";
+import {ActivityIndicator, View, StyleSheet} from "react-native";
 import { connect } from 'react-redux';
 import { createBorrowing, selectBorrowing} from "../../../redux/action/borrowing";
 import {GetUserDetail} from  "../../../redux/action/auth";
@@ -38,7 +38,7 @@ const Add = ({navigation, createBorrowing, selectBorrowing, GetUserDetail, ...pr
     const handleNoRepeat = () =>{
         setShow(!show);
         navigation.navigate("CreditHomeScreen")
-        selectBorrowing(null)
+        selectBorrowing(null);
     }
 
     const handleRepeat = () =>{
@@ -50,6 +50,7 @@ const Add = ({navigation, createBorrowing, selectBorrowing, GetUserDetail, ...pr
         setChangeExpectedDate("");
         setName("");
         setTab(0);
+        selectBorrowing(null);
     }
 
     useEffect(() => {
@@ -82,52 +83,58 @@ const Add = ({navigation, createBorrowing, selectBorrowing, GetUserDetail, ...pr
 
     return(
         <View style = {styles.container}>
-            <View style = {styles.tabContainer}>
-                {
-                    tab === 0 ? (
-                        <Amount 
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeAmount}
-                            value = {amount}
-                        />
-                    ): tab === 1?(
-                        <Currency 
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeCurrency}
-                            value = {currency}
-                        />
-                    ):tab === 2?(
-                        <Name
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setName}
-                            value = {name}
-                        />
-                    ): tab === 3?(
-                        <Email
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangeEmail}
-                            value = {email}
-                        />
-                    ):tab === 4?(
-                        <Phone
-                            setDecrement = {setDecrement}
-                            setIncrement = {setIncrement}
-                            onChangeText = {setChangePhone}
-                            value = {phone}
-                        />
-                    ):  tab === 5?(
-                        <DateComponent
-                            date = {expectedDate}
-                            setDate = {setChangeExpectedDate}
-                            setDecrement = {setDecrement}
-                            handleClick = {handleClick}
-                        />
-                    ): null
-                }
-            </View>
+            {
+                !props.borrowing.loading ? (
+                    <View style = {styles.tabContainer}>
+                        {
+                            tab === 0 ? (
+                                <Amount 
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeAmount}
+                                    value = {amount}
+                                />
+                            ): tab === 1?(
+                                <Currency 
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeCurrency}
+                                    value = {currency}
+                                />
+                            ):tab === 2?(
+                                <Name
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setName}
+                                    value = {name}
+                                />
+                            ): tab === 3?(
+                                <Email
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangeEmail}
+                                    value = {email}
+                                />
+                            ):tab === 4?(
+                                <Phone
+                                    setDecrement = {setDecrement}
+                                    setIncrement = {setIncrement}
+                                    onChangeText = {setChangePhone}
+                                    value = {phone}
+                                />
+                            ):  tab === 5?(
+                                <DateComponent
+                                    date = {expectedDate}
+                                    setDate = {setChangeExpectedDate}
+                                    setDecrement = {setDecrement}
+                                    handleClick = {handleClick}
+                                />
+                            ): null
+                        }
+                    </View>
+                ): (
+                    <ActivityIndicator size="large" color="#A52A2A" />
+                )
+            }
             <RepeatProcess
                 show = {show}
                 setModalVisible = {setModalVisible}
@@ -143,6 +150,12 @@ const Add = ({navigation, createBorrowing, selectBorrowing, GetUserDetail, ...pr
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: "center"
+    },
+    horizontal: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        padding: 10
     },
     tabContainer:{
         flex: 1

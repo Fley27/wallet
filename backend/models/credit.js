@@ -5,7 +5,7 @@ const creditSchema = mongoose.Schema({
     currency: {type: String, required: true},
     status:  { type: Boolean, default: false },
     date: { type: Date, default: Date.now() },
-    phone: {type: String, required: true},
+    phone: {type: String, required: true}, 
     email: { type: String, required: true}, 
     name: {type: String , required: true},
     outLimited: {type: Boolean, default: false},

@@ -7,6 +7,8 @@ import auth from "./auth";
 import income from "./income";
 import loan from "./loan";
 import expense from "./expense";
+
+
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,

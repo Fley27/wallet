@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Delete from "../../../component/deleteconfirmation";
 
- 
+
 const Detail = ({borrowing}) => {
-    const {amount, currency, date, name, phone, email, status, paidDate, outLimited, expectedDate} = borrowing.borrowing.credit;
+    const {amount, currency, date, name, phone, email, status, paidDate, outLimited, expectedDate} = borrowing.borrowing;
     const [show, setShow] = useState(false);
 
     const setModalVisible = () =>{

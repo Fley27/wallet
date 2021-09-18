@@ -1,12 +1,6 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import EmailSignUpScreen from '../screens/emailSignUp';
-import PasswordSignUp from "../screens/passwordSignUp"
-import LastnameSignUp from "../screens/lastnameSignUp";
-import FirstnameSignUp from "../screens/firstnameSignUp";
-import SexSignUp from '../screens/sexSignUp';
-import BirthdaySignUp from '../screens/birthdaySignUp';
-import CountrySignUp from '../screens/countrySignUp';
+import AddUser from '../screens/add-user';
 
 const Stack = createStackNavigator();
 
@@ -15,38 +9,19 @@ const SignUpNavigation = () => {
         <Stack.Navigator initialRouteName="EmailSignUpScreen">
             <Stack.Screen
                 name="EmailSignUpScreen"
-                component={EmailSignUpScreen}
-                options={{headerShown: false}}
-            />
-            <Stack.Screen
-                name="PasswordSignUp"
-                component={PasswordSignUp}
-                options={{headerShown: false}}
-            />
-            <Stack.Screen
-                name="LastnameSignUp"
-                component={LastnameSignUp}
-                options={{headerShown: false}}
-            />
-            <Stack.Screen
-                name="FirstnameSignUp"
-                component={FirstnameSignUp}
-                options={{headerShown: false}}
-            />
-            <Stack.Screen
-                name="SexSignUp"
-                component={SexSignUp}
-                options={{headerShown: false}}
-            />
-            <Stack.Screen
-                name="BirthdaySignUp"
-                component={BirthdaySignUp}
-                options={{headerShown: false}}
-            />
-            <Stack.Screen
-                name="CountrySignUp"
-                component={CountrySignUp}
-                options={{headerShown: false}}
+                component={AddUser}
+                options={{
+                    title: 'Sign Up', //Set Header Title
+                    
+                    headerStyle: {
+                      backgroundColor: '#A52A2A', //Set Header color
+                    },
+                    headerTintColor: '#fff', //Set Header text color
+                    headerTitleStyle: {
+                        fontWeight: 'bold', 
+                        alignSelf: 'center' 
+                    },
+                }}
             />
         </Stack.Navigator>
     );

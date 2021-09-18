@@ -16,18 +16,38 @@ import {
     DELETE_EXPENSE_SUCCESS,
     SELECTED_EXPENSE_FAIL,
     SELECTED_EXPENSE_REQUEST,
-    SELECTED_EXPENSE_SUCCESS
+    SELECTED_EXPENSE_SUCCESS,
+    FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_FAIL,
+    FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_REQUEST,
+    FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_SUCCESS,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
 } from "../consts";
 
 const initialState = {
     expense: null,
     expenses: null,
     loading: false,
+    card: null,
+    dataChart: []
 }
 
 export default function ( state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
+        case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST:
+            return {
+                ...state, 
+                dataChart: [],
+            }
+        case FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_REQUEST:
+            return {
+                ...state, 
+                loading: true,
+                card: null,
+            }
+
         case SELECTED_EXPENSE_REQUEST: 
         case CREATE_EXPENSE_REQUEST:
             return {
@@ -48,6 +68,13 @@ export default function ( state = initialState, action) {
             }
         }
 
+        case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS:
+            return {
+                ...state, 
+                loading: false,
+                dataChart: payload,
+            }
+
         case SELECTED_EXPENSE_SUCCESS:
         case CREATE_EXPENSE_SUCCESS:
             return {
@@ -55,6 +82,14 @@ export default function ( state = initialState, action) {
                 loading: false,
                 expense: payload
             }
+
+        case FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_SUCCESS:
+            return {
+                ...state, 
+                loading: false,
+                card: payload[0],
+            }
+
         case GET_EXPENSE_SUCCESS: 
             return {
                 ...state,
@@ -67,6 +102,14 @@ export default function ( state = initialState, action) {
                 loading: false,
             }
         }
+
+        case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL:
+            return {
+                ...state, 
+                loading: false,
+                dataChart: [],
+            }
+
         case CREATE_EXPENSE_FAIL:
         case SELECTED_EXPENSE_FAIL: 
             return {
@@ -80,6 +123,14 @@ export default function ( state = initialState, action) {
                 loading: false,
                 expenses: null,
             }
+
+        case FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_FAIL:
+            return {
+                ...state, 
+                loading: false,
+                card: null,
+            }
+
         case DELETE_EXPENSE_FAIL: {
             return{
                 ...state,

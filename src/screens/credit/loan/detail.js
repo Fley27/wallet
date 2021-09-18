@@ -7,7 +7,7 @@ import Delete from "../../../component/deleteconfirmation";
 
 
 const Detail = ({loan}) => {
-    const {amount, currency, date, name, phone, email, status, paidDate, outLimited, expectedDate} = loan.loan.credit;
+    const {amount, currency, date, name, phone, email, status, paidDate, outLimited, expectedDate} = loan.loan;
     const [show, setShow] = useState(false);
 
     const setModalVisible = () =>{

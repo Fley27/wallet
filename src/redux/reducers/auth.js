@@ -7,8 +7,7 @@ import {
     SIGN_UP_REQUEST,
     GET_USER_FAIL,
     GET_USER_SUCCESS,
-    GET_USER_REQUEST,
-    link
+    GET_USER_REQUEST
 } from "../consts.js";
 import jwt_decode from "jwt-decode";
 

@@ -53,7 +53,7 @@ router.post("/sign_in", async (req,res)=>{
 
 router.post("/", async (req,res) => {
     try{
-        let {email, password, firstname, lastname, gender, age, country} = req.body;
+        let {email, password, firstname, lastname, gender, date, country} = req.body;
         let user = await User.findOne({email});
         if(user)
             return res.json({msg: `This email is already linked to another account.`});
@@ -61,7 +61,7 @@ router.post("/", async (req,res) => {
         const salt = await bcrypt.genSalt(10);
         password = await bcrypt.hash(password, salt);
 
-        user = new User({email, password, firstname, lastname, country, gender, age});
+        user = new User({email, password, firstname, lastname, country, gender, date});
 
         await user.save();
 

@@ -1,25 +1,30 @@
-import React, {useEffect} from "react";
-import {View, FlatList, ActivityIndicator, StyleSheet} from "react-native";
+import React from "react";
+import {View, Text, FlatList, ActivityIndicator, StyleSheet} from "react-native";
 import ItemOperation from './itemOperation';
 
 
-const ListOperation = ({navigation, link, isActivated, DATA}) =>{
+const ListOperation = ({navigation, link, loading, DATA}) =>{
     return(
         <View style = {styles.container}> 
             {
-                DATA ? (
-                    
+                loading ? (
+                    <ActivityIndicator size="large" color="#A52A2A" />
+                ): DATA.length ? ( 
                     <FlatList
                         data={DATA}
                         renderItem={({ item }) => <ItemOperation navigation = {navigation} link = {link} item = {item} />}
                         keyExtractor={item => item._id}
                     />
                 ): (
-                    <ActivityIndicator size="large" color="#A52A2A" />
+                    <Text style = {styles.textEmpty}>
+                        {
+                            link === "DetailIncomeScreen" ? "There is no Income" : "There is no Expense"
+                        }
+                    </Text>
                 )
             }
         </View>
-    )
+    ) 
 }
 
 const styles = StyleSheet.create({
@@ -32,6 +37,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         padding: 10
+    },
+    textEmpty: {
+        textAlign: "center",
+        fontSize: 22,
+        fontWeight: "700"
     }
 })
 

@@ -1,19 +1,25 @@
 import React from "react";
-import {ActivityIndicator, View, FlatList, StyleSheet} from "react-native";
+import {ActivityIndicator, Text, View, FlatList, StyleSheet} from "react-native";
 import ItemCredit from "./itemCredit";
 
-const ListCredit = ({navigation, link, isActivated, DATA}) =>{
+const ListCredit = ({navigation, link, isActivated, DATA, loading}) =>{
     return(
         <View style = {styles.container}> 
             {
-                DATA ? ( 
+                loading ? (
+                    <ActivityIndicator size="large" color="#A52A2A" />
+                ): DATA.length ? ( 
                     <FlatList
                         data={DATA}
                         renderItem={({ item }) => <ItemCredit navigation = {navigation} link = {link} item = {item} />}
                         keyExtractor={item => item._id}
                     />
                 ): (
-                    <ActivityIndicator size="large" color="#A52A2A" />
+                    <Text style = {styles.textEmpty}>
+                        {
+                            link === "DetailLoanScreen" ? "There is no Loan" : "There is no Borrowing"
+                        }
+                    </Text>
                 )
             }
         </View>
@@ -30,6 +36,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         padding: 10
+    },
+    textEmpty: {
+        textAlign: "center",
+        fontSize: 22,
+        fontWeight: "700"
     }
 })
 

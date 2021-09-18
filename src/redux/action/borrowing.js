@@ -17,9 +17,41 @@ import {
     link,
     SELECTED_BORROWING_FAIL,
     SELECTED_BORROWING_REQUEST,
-    SELECTED_BORROWING_SUCCESS
+    SELECTED_BORROWING_SUCCESS,
+    FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_FAIL,
+    FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_REQUEST,
+    FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_SUCCESS,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
 } from "../consts";
-import axios from "axios"; 
+import axios from "axios";
+
+export const getTotalAmountTheLastSixMonthBorrowing = (borrowingData) => async (dispatch) => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+        } 
+    }
+    dispatch({
+        type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST
+    })
+    const body = borrowingData;
+    try {
+        const res = await axios.post(`${link}/borrowing/sum-last-six-month`, 
+            body,
+            config
+        )
+        dispatch({
+            type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL
+        })
+    }
+}
 
 export const createBorrowing = (borrowingData) => async (dispatch) => {
     const config = {
@@ -68,6 +100,32 @@ export const getBorrowing = (borrowingData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_BORROWING_FAIL
+        })
+    }
+}
+
+export const getTotalAmountByCurrencyBorrowing = (borrowingData) => async (dispatch) => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+        } 
+    }
+    dispatch({
+        type: FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_REQUEST
+    })
+    const body = borrowingData;
+    try {
+        const res = await axios.post(`${link}/borrowing/sum-by-currency`, 
+            body,
+            config
+        )
+        dispatch({
+            type: FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_FAIL
         })
     }
 }

@@ -16,18 +16,38 @@ import {
     DELETE_INCOME_SUCCESS,
     SELECTED_INCOME_FAIL,
     SELECTED_INCOME_REQUEST,
-    SELECTED_INCOME_SUCCESS
+    SELECTED_INCOME_SUCCESS,
+    FILTER_TOTAL_AMOUNT_INCOME_BY_CURRENCY_FAIL,
+    FILTER_TOTAL_AMOUNT_INCOME_BY_CURRENCY_REQUEST,
+    FILTER_TOTAL_AMOUNT_INCOME_BY_CURRENCY_SUCCESS,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
 } from "../consts";
 
 const initialState = {
     income: null,
     incomes: null,
     loading: false,
+    card: null,
+    dataChart: []
 }
 
 export default function ( state = initialState, action) {
     const { type, payload } = action;
     switch (type) {
+        case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST:
+            return {
+                ...state, 
+                dataChart: [],
+            }
+
+        case FILTER_TOTAL_AMOUNT_INCOME_BY_CURRENCY_REQUEST:
+            return {
+                ...state, 
+                loading: true,
+                card: null,
+            }
         case SELECTED_INCOME_REQUEST: 
         case CREATE_INCOME_REQUEST:
             return {
@@ -48,6 +68,20 @@ export default function ( state = initialState, action) {
             }
         }
 
+        case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS:
+            return {
+                ...state, 
+                loading: false,
+                dataChart: payload,
+            }
+
+        case FILTER_TOTAL_AMOUNT_INCOME_BY_CURRENCY_SUCCESS:
+            return {
+                ...state, 
+                loading: false,
+                card: payload[0],
+            }
+
         case SELECTED_INCOME_SUCCESS:
         case CREATE_INCOME_SUCCESS:
             return {
@@ -61,12 +95,28 @@ export default function ( state = initialState, action) {
                 loading: false,
                 incomes: payload
             }
+
         case DELETE_INCOME_SUCCESS: {
             return{
                 ...state,
                 loading: false,
             }
         }
+
+        case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL:
+            return {
+                ...state, 
+                loading: false,
+                dataChart: [],
+            }
+
+        case FILTER_TOTAL_AMOUNT_INCOME_BY_CURRENCY_FAIL:
+            return {
+                ...state, 
+                loading: false,
+                card: null,
+            }
+
         case CREATE_INCOME_FAIL:
         case SELECTED_INCOME_FAIL: 
             return {

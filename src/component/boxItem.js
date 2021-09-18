@@ -1,27 +1,52 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import NumberFormat from 'react-number-format';
 
 
 const Item = ({item}) =>(
     <View style = {[styles.flatListItem, 
-        item.id === "Incomes" ? styles.item1 : item.id === "Expenses" ?  styles.item2 : 
-        item.id === "Credits" ? styles.item3 : item.id === "Loans" ? styles.item4 : null]}>
+        item._id === "Incomes" ? styles.item1 : item._id === "Expenses" ?  styles.item2 : 
+        item._id === "Borrowings" ? styles.item3 : item._id === "Loans" ? styles.item4 : null]}>
         <View style = {styles.itemHeader}>
-            <Text style = {styles.itemHeaderLabel}>{item.id.toUpperCase()}</Text>
+            <Text style = {styles.itemHeaderLabel}>{item._id.toUpperCase()}</Text>
         </View>
         <View style={styles.separator} />
         <View style = {styles.itemBody}>
             <View style = {styles.amount}>
-                <Text style = {styles.amountText}>{item.data[0].amount}</Text>
-                <Text style = {styles.deviceText}>   {item.data[0].device}</Text>
+                <Text style = {styles.amountText}>
+                    <NumberFormat
+                        value={item.total_usd}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                        prefix={'$'}
+                        renderText={(value, props) => <Text {...props}>{value}</Text>}
+                    />
+                </Text>
+                <Text style = {styles.deviceText}>  USD</Text>
             </View>
             <View style = {styles.amount}>
-                <Text style = {styles.amountText}>{item.data[1].amount}</Text>
-                <Text style = {styles.deviceText}>   {item.data[1].device}</Text>
+                <Text style = {styles.amountText}>
+                    <NumberFormat
+                        value={item.total_dop}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                        prefix={''}
+                        renderText={(value, props) => <Text {...props}>{value}</Text>}
+                    />
+                </Text>
+                <Text style = {styles.deviceText}>  RD$ </Text>
             </View>
             <View style = {styles.amount}>
-                <Text style = {styles.amountText}>{item.data[2].amount}</Text>
-                <Text style = {styles.deviceText}>   {item.data[2].device}</Text>
+                <Text style = {styles.amountText}>
+                    <NumberFormat
+                        value={item.total_htg}
+                        displayType={'text'}
+                        thousandSeparator={true}
+                        prefix={''}
+                        renderText={(value, props) => <Text {...props}>{value}</Text>}
+                    />
+                </Text>
+                <Text style = {styles.deviceText}>  G</Text>
             </View>
         </View>
     </View>
@@ -29,7 +54,6 @@ const Item = ({item}) =>(
 
 
 const styles = StyleSheet.create({
-
     flatListItem:{
         flex: 1,
         width: 180,
@@ -75,7 +99,7 @@ const styles = StyleSheet.create({
     deviceText:{
         fontSize: 8,
         fontWeight: "700",
-        color: "#F5F5F5"
+        color: "#FFF"
     }
 })
 

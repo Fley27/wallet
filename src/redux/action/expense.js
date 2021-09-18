@@ -18,8 +18,66 @@ import {
     SELECTED_EXPENSE_REQUEST,
     SELECTED_EXPENSE_SUCCESS,
     link,
+    FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_FAIL,
+    FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_REQUEST,
+    FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_SUCCESS,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
 } from "../consts";
 import axios from "axios";
+
+export const getTotalAmountTheLastSixMonthExpense = (expenseData) => async (dispatch) => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+        } 
+    }
+    dispatch({
+        type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST
+    })
+    const body = expenseData;
+    try {
+        const res = await axios.post(`${link}/expense/sum-last-six-month`, 
+            body,
+            config
+        )
+        dispatch({
+            type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL
+        })
+    }
+}
+
+export const getTotalAmountByCurrencyExpense = (expenseData) => async (dispatch) => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+        } 
+    }
+    dispatch({
+        type: FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_REQUEST
+    })
+    const body = expenseData;
+    try {
+        const res = await axios.post(`${link}/expense/sum-by-currency`, 
+            body,
+            config
+        )
+        dispatch({
+            type: FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_FAIL
+        })
+    }
+}
 
 export const createExpense = (expenseData) => async (dispatch) => {
     const config = {

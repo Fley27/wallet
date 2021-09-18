@@ -20,6 +20,10 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
         orderBy: "ascending"
     });
 
+    const [searchBy, setSearchBy] = useState("amount");
+    const [orderBy, setOrder] = useState("ascending");
+    const [amount_, setAmount] = useState(0);
+    const [category_, setCategory] = useState("ALL");
     useEffect(() => {
         GetUserDetail();
     }, [])
@@ -27,20 +31,59 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
     useEffect(() => {
         if(props.auth){
             if(props.auth.user){
+                let currency = [], category = [], amount = 100000000000;
+                if(state.device === "ALL")
+                    currency = ["USD", "DOP", "HTG"];
+                else{
+                    currency = [];
+                    currency.push(state.device)
+                }
                 if(state.tab === "IC"){
+                    if(searchBy === "amount"){
+                        category = ["GIFT", "WORK PAID"];
+                        if(amount_ > 0){
+                            amount = parseFlo(amount_);
+                        }
+                    }else if(searchBy === "category"){
+                        if(category_ === "ALL")
+                            category = ["GIFT", "WORK PAID"];
+                        else{
+                            category = [];
+                            category.push(category_)
+                        }
+                    }
+                        
                     const obj = {
-                        id : props.auth.user.user.id
+                        id : props.auth.user.user.id,
+                        currency: currency,
+                        amount: amount,
+                        category: category
                     }
                     getIncome(JSON.stringify(obj))
                 }else if(state.tab === "EX"){
+                    if(searchBy === "amount"){
+                        category = ["MANDATORY", "FOR FUN", "OUTFITS"];
+                        if(amount_ > 0)
+                            amount = amount_;
+                    }else if(searchBy === "category"){
+                        if(category_ === "ALL")
+                            category = ["MANDATORY", "FOR FUN", "OUTFITS"];
+                        else{
+                            category = [];
+                            category.push(category_)
+                        }
+                    }
                     const obj = {
-                        id : props.auth.user.user.id
+                        id : props.auth.user.user.id,
+                        currency: currency,
+                        amount: amount,
+                        category: category
                     }
                     getExpense(JSON.stringify(obj))
                 }
             }
         }
-    }, [props.auth.user, state.tab])
+    }, [props.auth.user, state.tab, state.device, category_, amount_])
 
     const [modal, setModal] = useState(false);
 
@@ -48,13 +91,12 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
         setModal(!modal)
     }
 
-    const setSearchBy = (item) =>{
-        setState(prevState=> ({...prevState, searchBy: item}));
-        alert(item)
+    const setChangeSearchBy = (item) =>{
+        setSearchBy(item);
     }
 
-    const setOrderBy = (item) =>{
-        setState(prevState=> ({...prevState, orderBy: item}))
+    const setChangeCategory = (item) => {
+        setCategory(item);
     }
     
     const handleAdd = () =>{
@@ -66,6 +108,8 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
 
     const selectOperation  = (item) =>{
         setState(prevState=> ({...prevState, tab: item}))
+        setAmount(0);
+        setCategory("ALL")
     }
 
     const selectDevice  = (item) =>{
@@ -109,14 +153,49 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
                 </View>
             </View>
                 <View style = {styles.listSearchContainer}>
-                    <View>
-                        <TextInput 
-                            style = {styles.textInputList}
-                            placeholder = "Search..."
-                            autoCapitalize="none"
-                            keyboardType="web-search"
-                        />
-                    </View>
+                    {
+                        searchBy === "category" ? (
+                            state.tab === "IC" ? (
+                                <View style = {[styles.tabOperation, {marginTop: 20}]}>
+                                    <TouchableOpacity onPress = {()=> setChangeCategory("ALL")} style = {[styles.operationOption, {borderTopLeftRadius: 10, borderBottomLeftRadius: 10}, category_ === "ALL" ? styles.operationOptionSelected : null]}>
+                                        <Text style = {styles.operationOptionText}>ALL</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress = {()=> setChangeCategory("GIFT")} style = {[styles.operationOption, category_ === "GIFT" ? styles.operationOptionSelected : null]}>
+                                        <Text style = {styles.operationOptionText}>GI</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress = {()=> setChangeCategory("WORK PAID")} style = {[styles.operationOption, category_ === "WORK PAID" ? styles.operationOptionSelected : null]}>
+                                        <Text style = {styles.operationOptionText}>WP</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ): (
+                                <View style = {[styles.tabOperation, {marginTop: 20}]}>
+                                    <TouchableOpacity onPress = {()=> setChangeCategory("ALL")} style = {[styles.operationOption, {borderTopLeftRadius: 10, borderBottomLeftRadius: 10}, category_ === "ALL" ? styles.operationOptionSelected : null]}>
+                                        <Text style = {styles.operationOptionText}>ALL</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress = {()=> setChangeCategory("MANDATORY")} style = {[styles.operationOption, category_ === "MANDATORY" ? styles.operationOptionSelected : null]}>
+                                        <Text style = {styles.operationOptionText}>MD</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress = {()=> setChangeCategory("FOR FUN")} style = {[styles.operationOption, category_ === "FOR FUN" ? styles.operationOptionSelected : null]}>
+                                        <Text style = {styles.operationOptionText}>FF</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress = {()=> setChangeCategory("OUTFITS")} style = {[styles.operationOption, category_ === "OUTFITS" ? styles.operationOptionSelected : null]}>
+                                        <Text style = {styles.operationOptionText}>OF</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        ): (
+                            <View>
+                                <TextInput 
+                                    style = {styles.textInputList}
+                                    placeholder = "Search..."
+                                    autoCapitalize="none"
+                                    keyboardType= "number-pad"
+                                    value= {amount_}
+                                    onChangeText = {setAmount}
+                                />
+                            </View>
+                        )
+                    }
                     <View style = {styles.filterContainer}>
                         <Text style = {styles.listSearchText}>Sort by</Text>
                         <TouchableOpacity 
@@ -137,7 +216,8 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
                         link = {"DetailIncomeScreen"} 
                         navigation = {navigation}
                         isActivated = "income"
-                        DATA = {props.income.incomes ? props.income.incomes : null}
+                        DATA = {props.income.incomes ? props.income.incomes : []}
+                        loading = {props.income.loading}
                     />
                 ): (
                     <ListOperation 
@@ -145,7 +225,8 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
                         link = {"DetailExpenseScreen"} 
                         navigation = {navigation}
                         isActivated = "expense"
-                        DATA = {props.expense.expenses ? props.expense.expenses : null}
+                        DATA = {props.expense.expenses ? props.expense.expenses : []}
+                        loading = {props.expense.loading}
                     />
                 )
             }
@@ -164,19 +245,16 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
                             <Text style = {styles.modalTitle}>Search by: </Text>
                             <View style = {styles.radioButtonContainer}>
                                 <RadioButton
-                                    value="Source"
-                                    status={ state.searchBy === 'source' ? 'checked' : 'unchecked' }
-                                    onPress={() => setSearchBy('source')}
+                                    value="amount"
+                                    label = "Amount"
+                                    status={ searchBy === 'amount' ? 'checked' : 'unchecked' }
+                                    setChange = {setChangeSearchBy}
                                 />
                                 <RadioButton
-                                    value="Amount"
-                                    status={ state.searchBy === 'amount' ? 'checked' : 'unchecked' }
-                                    onPress={() => setSearchBy('amount')}
-                                />
-                                <RadioButton
-                                    value="Type"
-                                    status={ state.searchBy === 'type' ? 'checked' : 'unchecked' }
-                                    onPress={() => setSearchBy('type')}
+                                    value="category"
+                                    label = "Category"
+                                    status={ searchBy === 'category' ? 'checked' : 'unchecked' }
+                                    setChange = {setChangeSearchBy}
                                 />
                             </View>
                         </View>
@@ -185,14 +263,16 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
                             <Text style = {styles.modalTitle}>Order by</Text>
                             <View style = {styles.radioButtonContainer}>
                                 <RadioButton
-                                    value="Ascending"
-                                    status={ state.orderBy === 'ascending' ? 'checked' : 'unchecked' }
-                                    onPress={() => setOrderBy('ascending')}
+                                    value="ascending"
+                                    label="Ascending"
+                                    status={ orderBy === 'ascending' ? 'checked' : 'unchecked' }
+                                    setChange = {setOrder}
                                 />
                                 <RadioButton
-                                    value="Descending"
-                                    status={ state.orderBy === 'descending' ? 'checked' : 'unchecked' }
-                                    onPress={() => setOrderBy('descending')}
+                                    value="descending"
+                                    label="Descending"
+                                    status={ orderBy === 'descending' ? 'checked' : 'unchecked' }
+                                    setChange = {setOrder}
                                 />
                             </View>
                         </View>

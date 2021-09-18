@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    SafeAreaView,
     Text, 
     View,
     TextInput,
@@ -14,7 +15,7 @@ const LastnameSignUp = ({navigation}) =>{
     }
 
     return(
-        <View style = {styles.container}>
+        <SafeAreaView style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
                     <Text style = {styles.label}>Enter your Lastname</Text>
@@ -32,7 +33,7 @@ const LastnameSignUp = ({navigation}) =>{
                     </TouchableHighlight>
                 </View>
             </KeyboardAvoidingView>
-        </View>
+        </SafeAreaView>
     )
 }
 

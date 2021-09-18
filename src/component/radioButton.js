@@ -1,16 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet} from "react-native";
+import { View, TouchableOpacity ,Text, StyleSheet} from "react-native";
 
-const RadioButton = ({value, status}) =>{
+const RadioButton = ({value, status, label, setChange}) =>{
     return(
         <View style = {styles.containerRadio}>
             <View style = {styles.valueContainer}>
-                <Text style = {styles.value}>{value}</Text>
+                <Text style = {styles.value}>{label}</Text>
             </View>
             
-            <View style = {styles.circleButtonContainer}>
+            <TouchableOpacity onPress={() => setChange(value)} style = {styles.circleButtonContainer}>
                 <View style = {[styles.circleButton, status === "checked" ? styles.circleButtonSelected : styles.circleButton ]}></View>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }

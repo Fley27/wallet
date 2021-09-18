@@ -114,6 +114,18 @@ export const device = [
     }
 ]
 
+export const sex_ = [
+    {
+        value: "MALE",
+    },
+    {
+        value: "FEMALE"
+    },
+    {
+        value: "NON BINARY"
+    }
+]
+
 export const getItemIncome = (data, index) => ({
     id: Math.random().toString(12).substring(0),
     amount: 1500 + (index + 1) * 1500 / 10,
@@ -131,26 +143,43 @@ export const getItemIncomeDetail = {
     source: "Fenley J. Viky Menelas"
 };
 
-export const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+date = new Date();
+let pos = date.getMonth() - 5;
+const data = [];
+const month = ["Jan.", "Feb.", "Mar.", "April", "May", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+for(let i = 0; i < 6; i++){
+    data.push(month[pos]);
+    pos++;
+}
+
+export const data_ = {
+    
+    labels: data,
     datasets: [
         {
-            data: [2000, 4500, 12000, 8000, 9900, 4300],
-            color: (opacity = 1) => `rgba(255,99,71, ${opacity})`, // optional
+            data: [0, 0, 0, 0, 0, 0],
+            color: `rgba(255,255,255)`, // optional
             strokeWidth: 2 // optional
         }
     ]
 };
 
 export const chartConfig = {
-    backgroundGradientFrom: "#FFF",
-    backgroundGradientFromOpacity: 1,
-    backgroundGradientTo: "#FFF",
-    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    strokeWidth: 1, // optional, default 3
+    backgroundColor: '#FFFFFF',
+    backgroundGradientFrom: '#FFFFFF',
+    backgroundGradientTo: '#FFFFFF',
+    color: (opacity = 1) => `#121212`,
+    decimalPlaces: 2,
     barPercentage: 1,
-    useShadowColorFromDataset: true, 
-};
+    style: {
+        borderRadius: 16,
+    },
+    propsForBackgroundLines: {
+        strokeWidth: 1,
+        stroke: '#efefef',
+        strokeDasharray: '0',
+    },
+}
 
 export const sex = [
     {
@@ -164,73 +193,29 @@ export const sex = [
     }
 ]
 
-export const boxes = [
+export const boxes_ = [
     {
-        id: "Incomes",
-        data: [
-            {
-                amount: "4,244.00",
-                device: "USD"
-            },
-            {
-                amount: "79,000.00",
-                device: "DOP"
-            },
-            {
-                amount: "345,789.00",
-                device: "HTG"
-            }
-        ]
+        _id: "Incomes",
+        total_usd: 0, 
+        total_dop: 0,
+        total_htg: 0
     },
     {
-        id: "Expenses",
-        data: [
-            {
-                amount: "3,244.00",
-                device: "USD"
-            },
-            {
-                amount: "80,000.00",
-                device: "DOP"
-            },
-            {
-                amount: "200,789.00",
-                device: "HTG"
-            }
-        ]
+        _id: "Expenses",
+        total_usd: 0, 
+        total_dop: 0,
+        total_htg: 0
     },
     {
-        id: "Credits",
-        data: [
-            {
-                amount: "4,244.00",
-                device: "USD"
-            },
-            {
-                amount: "170,000.00",
-                device: "DOP"
-            },
-            {
-                amount: "209,789.00",
-                device: "HTG"
-            }
-        ]
+        _id: "Borrowings",
+        total_usd: 0, 
+        total_dop: 0,
+        total_htg: 0
     },
     {
-        id: "Loans",
-        data: [
-            {
-                amount: "9,244.00",
-                device: "USD"
-            },
-            {
-                amount: "100,000.00",
-                device: "DOP"
-            },
-            {
-                amount: "270,789.00",
-                device: "HTG"
-            }
-        ]
+        _id: "Loans",
+        total_usd: 0, 
+        total_dop: 0,
+        total_htg: 0
     }
 ]

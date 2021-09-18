@@ -21,7 +21,7 @@ export const signUp = (userData) => async (dispatch) => {
     dispatch({
         type: SIGN_UP_REQUEST
     })
-    const body = JSON.stringify(userData);
+    const body = userData;
     try {
         const res = await axios.post(`${link}/auth/`, 
             body,
@@ -49,7 +49,6 @@ export const signIn = (userData) => async (dispatch) => {
     })
     try {
         const body = userData;
-        console.log(body)
         const res = await axios.post(`${link}/auth/sign_in`, 
             body,
             config
@@ -70,7 +69,6 @@ export const GetUserDetail = (token) => async (dispatch) => {
     dispatch({
         type: GET_USER_REQUEST
     })
-    const body = JSON.stringify(token);
     try {
         dispatch({
             type: GET_USER_SUCCESS,

@@ -1,8 +1,9 @@
 import React , {useState} from 'react';
 import {
+    SafeAreaView,
     Text, 
     View,
-    TouchableHighlight,
+    TouchableOpacity,
     KeyboardAvoidingView,
     Picker,
     StyleSheet} from "react-native";
@@ -16,7 +17,7 @@ const CountrySignUp = ({navigation}) =>{
     }
 
     return(
-        <View style = {styles.container}>
+        <SafeAreaView style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
                     <Text style = {styles.label}>Choose your Country</Text>
@@ -31,14 +32,14 @@ const CountrySignUp = ({navigation}) =>{
                         <Picker.Item label="CANADA" value="CANADA" />
                         <Picker.Item label="FRANCE" value="FRANCE" />
                     </Picker>
-                    <TouchableHighlight onPress = {handleHomepage} style = {styles.button}>
+                    <TouchableOpacity onPress = {handleHomepage} style = {styles.button}>
                         <View style = {styles.next}>
                             <Text style = {styles.textNext}>SUBMIT</Text>
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
-        </View>
+        </SafeAreaView>
     )
 }
 

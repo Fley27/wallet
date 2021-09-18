@@ -1,43 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
     Text, 
     View,
+    TextInput,
+    TouchableOpacity,
     KeyboardAvoidingView,
-    StyleSheet,
-    TouchableOpacity
-} from "react-native";
-import {sex_} from "../data/data"
+    StyleSheet} from "react-native";
 
-const Sex = ({setDecrement,setIncrement, onChangeText}) =>{
-
-    const [state, setState] = useState({
-        selectSex : "MALE"
-    })
-
-    const handleSelectSex = (item) =>{
-        setState(prevState=>({...prevState, selectSex: item }))
-    }
-
+const Password = ({setDecrement, setIncrement, confirm, onChangePassword, onChangeText, value}) =>{
     return(
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Select a Sex</Text>
-                    
-                    <View style = {styles.buttonContainer}>
-                        {
-                            sex_.map((item, index)=>(
-                                <TouchableOpacity key = {index} onPress = {()=>{
-                                    handleSelectSex(item.value)
-                                    onChangeText(item.value)
-                                }} style = {styles.buttonSexOption}>
-                                    <View style = {state.selectSex === item.value ? styles.optionActive : styles.option}>
-                                        <Text style = {state.selectSex === item.value ? styles.textOptionActive : styles.textOption}>{item.value}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            ))
-                        }
-                    </View>
+                    <Text style = {styles.label}>Enter your password</Text>
+                    <TextInput 
+                        style = {styles.textInput}
+                        autoCapitalize="none"
+                        keyboardType = "ascii-capable"
+                        secureTextEntry = {true}
+                        returnKeyType="next"
+                        onChangeText = {onChangeText}
+                        value = {value}
+                    />
+                    <Text style = {styles.label}>Confirm password</Text>
+                    <TextInput 
+                        style = {styles.textInput}
+                        autoCapitalize="none"
+                        keyboardType = "ascii-capable"
+                        secureTextEntry = {true}
+                        returnKeyType="next"
+                        onChangeText = {onChangePassword}
+                        value = {confirm}
+                    />
                     <View style = {styles.buttonContainer}>
                         <TouchableOpacity onPress = {setDecrement} style = {styles.button}>
                             <View style = {styles.next}>
@@ -99,42 +93,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: 30
     },
-    buttonSexOption:{
-        width: "25%",
-        alignItems: "center"
-    },
-    optionActive:{
-        height: 50,
-        width: 100,
-        borderRadius: 40,
-        backgroundColor: "#FFF",
-        alignItems: "center",
-        borderWidth: 1.5,
-        borderColor: "#000",
-        justifyContent: "center",
-        marginTop: 5
-    },
-    option:{
-        height: 50,
-        width: 100,
-        borderRadius: 40,
-        backgroundColor: "#FFF",
-        alignItems: "center",
-        borderWidth: 1.5,
-        borderColor: "#DCDCDC",
-        justifyContent: "center",
-        marginTop: 5
-    },
-    textOptionActive:{
-        color: "#000",
-        fontWeight: "bold",
-        fontSize: 16,
-    },
-    textOption:{
-        color: "#DCDCDC",
-        fontWeight: "bold",
-        fontSize: 16,
-    },
     button:{
         alignItems:"center"
     },
@@ -156,4 +114,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Sex;
+export default Password;
