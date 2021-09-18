@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "start": " node server.js",
-  "server": "nodemon main",
+  
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": " node server.js",
+    "server": "nodemon main"
   },
   "author": "Fenley Jude Viky Menelas",
   "license": "ISC",
