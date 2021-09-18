@@ -3,7 +3,6 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const express = require("express");
-const path = require("path");
 const connectDB = require("./config/db");
 const cors = require("cors");
 
@@ -15,7 +14,7 @@ app.use(cors());
 // connection to database;
 connectDB();
 
-let port = process.env.PORT || 5000; 
+const port = process.env.PORT || 5000; 
 
 // Routes
 app.use("/api/auth", require("./routes/api/auth"));
