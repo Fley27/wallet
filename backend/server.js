@@ -15,7 +15,7 @@ app.use(cors());
 // connection to database;
 connectDB();
 
-let port = process.env.PORT || 6000; 
+let port = process.env.PORT || 5000; 
 
 // Routes
 app.use("/api/auth", require("./routes/api/auth"));
