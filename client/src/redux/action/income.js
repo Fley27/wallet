@@ -46,6 +46,7 @@ export const getTotalAmountTheLastSixMonthIncome = (incomeData) => async (dispat
             type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS,
             payload: res.data
         })
+        
     } catch (error) {
         dispatch({
             type: TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL

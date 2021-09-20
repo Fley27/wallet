@@ -34,7 +34,7 @@ router.post("/", async (req, res)=>{
             },
         ]).exec(function(err, obj){
             console.log(JSON.stringify(obj))
-            return res.json(obj)
+            return res.json({income: true, incomes: obj})
         })
     } catch (error) {
         console.log(`Server : ${error}`);

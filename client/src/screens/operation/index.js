@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import { View, Text, Modal, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import { getIncome, filterIncome} from "../../redux/action/income";
-import { getExpense, filterExpense } from "../../redux/action/expense";
+import { getIncome} from "../../redux/action/income";
+import { getExpense} from "../../redux/action/expense";
 import {GetUserDetail} from  "../../redux/action/auth";
 import ListOperation from '../../component/listOperation';
 import FilterIcon from "../../icons/filterIcon";
@@ -11,7 +11,7 @@ import FloatingButton from "../../component/floatingButton";
 import RadioButton from "../../component/radioButton";
 import {getItemIncome, getItemExpense} from "../../data/data";
 
-const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filterIncome, ...props}) =>{
+const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, ...props}) =>{
 
     const [state, setState] = useState({
         tab: "IC",
@@ -448,10 +448,8 @@ const styles = StyleSheet.create({
 OperationHome.propTypes = {
     income: PropTypes.object.isRequired,
     getIncome: PropTypes.func.isRequired,
-    filterIncome: PropTypes.func.isRequired,
     GetUserDetail: PropTypes.func.isRequired,
     getExpense: PropTypes.func.isRequired,
-    filterExpense: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -460,4 +458,4 @@ const mapStateToProps = (state) => ({
     expense: state.expense
 });
 
-export default connect(mapStateToProps, {getExpense, filterExpense, getIncome, filterIncome, GetUserDetail})(OperationHome);
+export default connect(mapStateToProps, {getExpense, getIncome, GetUserDetail})(OperationHome);

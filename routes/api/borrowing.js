@@ -42,7 +42,7 @@ router.post("/", async (req, res)=>{
             }
         ]).exec(function(err, obj){
             console.log(err)
-            return res.json({borrowing: obj, borrowings: obj});
+            return res.json({borrowing: true, borrowings: obj});
         })
     } catch (error) {
         console.log(`Server : ${error}`);

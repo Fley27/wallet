@@ -26,7 +26,7 @@ import {
 } from "../consts";
 
 const initialState = {
-    expense: null,
+    expense: false,
     expenses: null,
     loading: false,
     card: null,
@@ -53,7 +53,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state, 
                 loading: true,
-                expense: null,
+                expense: false,
             }
         case GET_EXPENSE_REQUEST:
             return {
@@ -122,7 +122,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                expense: null
+                expense: false
             }
         case GET_EXPENSE_FAIL: 
             return {

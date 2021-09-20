@@ -34,7 +34,7 @@ router.post("/", async (req, res)=>{
                 $unwind : "$data"
             },
         ]).exec(function(err, obj){
-            return res.json({expense: obj, expenses: obj})
+            return res.json({expense: true, expenses: obj})
         })
     } catch (error) {
         console.log(`Server : ${error}`);

@@ -44,7 +44,7 @@ router.post("/", async (req, res)=>{
             }
         ]).exec(function(err, obj){
             console.log(err);
-            return res.json({loan: obj, loans: obj})
+            return res.json({loan: true, loans: obj})
         })
     } catch (error) {
         console.log(`Server : ${error}`);

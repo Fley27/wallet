@@ -26,7 +26,7 @@ import {
 } from "../consts";
 
 const initialState = {
-    income: null,
+    income: false,
     incomes: null,
     loading: false,
     card: null,
@@ -53,7 +53,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state, 
                 loading: true,
-                income: null,
+                income: false,
             }
         case GET_INCOME_REQUEST:
             return {
@@ -130,7 +130,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                income: null
+                income: false
             }
         case GET_INCOME_FAIL: 
             return {

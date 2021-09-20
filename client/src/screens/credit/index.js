@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import { getBorrowing, filterBorrowing } from "../../redux/action/borrowing";
-import { getLoan, filterLoan } from "../../redux/action/loan";
+import { getBorrowing } from "../../redux/action/borrowing";
+import { getLoan} from "../../redux/action/loan";
 import { GetUserDetail } from "../../redux/action/auth";
 import { View, Text, Modal, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import ListCredit from "../../component/listCredit";
@@ -11,7 +11,7 @@ import FloatingButton from "../../component/floatingButton";
 import RadioButton from "../../component/radioButton";
 import {getItemLoan, getItemCredit} from "../../data/data";
 
-const CreditHome = ({navigation, getBorrowing, getLoan, filterBorrowing, GetUserDetail, ...props}) =>{
+const CreditHome = ({navigation, getBorrowing, getLoan, GetUserDetail, ...props}) =>{
 
     const [state, setState] = useState({
         tab: "LO",
@@ -388,9 +388,7 @@ CreditHome.propTypes = {
     borrowing: PropTypes.object.isRequired,
     loan: PropTypes.object.isRequired,
     getBorrowing: PropTypes.func.isRequired,
-    filterBorrowing: PropTypes.func.isRequired,
     getLoan: PropTypes.func.isRequired,
-    filterLoan: PropTypes.func.isRequired,
     GetUserDetail: PropTypes.func.isRequired
 }
 
@@ -400,4 +398,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { getLoan, filterLoan, getBorrowing, filterBorrowing, GetUserDetail})(CreditHome);
+export default connect(mapStateToProps, { getLoan, getBorrowing, GetUserDetail})(CreditHome);

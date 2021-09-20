@@ -26,7 +26,7 @@ import {
 } from "../consts";
 
 const initialState = {
-    loan: null,
+    loan: false,
     loans: null,
     loading: false,
     dataChart: []
@@ -60,7 +60,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state, 
                 loading: true,
-                loan: null,
+                loan: false,
             }
 
         case DELETE_LOAN_REQUEST: {
@@ -112,7 +112,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                loan: null
+                loan: false
             }
             
 

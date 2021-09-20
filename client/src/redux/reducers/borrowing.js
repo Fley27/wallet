@@ -26,7 +26,7 @@ import {
 } from "../consts";
 
 const initialState = {
-    borrowing: null,
+    borrowing: false,
     borrowings: null,
     loading: false,
     card: null, 
@@ -52,7 +52,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state, 
                 loading: true,
-                borrowing: null,
+                borrowing: false,
             }
             
         case GET_BORROWING_REQUEST:
@@ -128,7 +128,7 @@ export default function ( state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                borrowing: null
+                borrowing: false
             }
         case GET_BORROWING_FAIL: 
             return {

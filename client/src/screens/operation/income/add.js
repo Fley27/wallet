@@ -47,9 +47,9 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, selectIncome, ...pr
 
     useEffect(() => {
         if(props.income.income){
-            setShow(true)
+            setShow(true);
         }
-
+        alert(JSON.stringify(props.income.income));
     }, [props.income.income])
 
     const setIncrement = () =>{
