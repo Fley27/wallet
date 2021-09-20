@@ -22,7 +22,7 @@ const CreditHome = ({navigation, getBorrowing, getLoan, GetUserDetail, ...props}
 
     const [searchBy, setSearchBy] = useState("amount");
     const [orderBy, setOrder] = useState("ascending");
-    const [amount_, setAmount] = useState(0);
+    const [amount_, setAmount] = useState("");
 
     useEffect(() => {
         GetUserDetail(); 

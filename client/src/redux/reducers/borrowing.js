@@ -22,7 +22,10 @@ import {
     FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_SUCCESS,
     TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
     TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
-    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS,
+    PAYMENT_FAIL,
+    PAYMENT_REQUEST,
+    PAYMENT_SUCCESS
 } from "../consts";
 
 const initialState = {
@@ -40,6 +43,11 @@ export default function ( state = initialState, action) {
             return {
                 ...state, 
                 dataChart: [],
+            }
+        case PAYMENT_REQUEST:
+            return {
+                ...state, 
+                loading: true,
             }
         case FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_REQUEST:
             return {
@@ -109,7 +117,12 @@ export default function ( state = initialState, action) {
                 loading: false,
             }
         }
-
+        case PAYMENT_SUCCESS:
+            return {
+                ...state, 
+                loading: false,
+                borrowing: payload, 
+            }
         case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL:
             return {
                 ...state, 
@@ -142,6 +155,12 @@ export default function ( state = initialState, action) {
                 loading: false,
             }
         }
+        case PAYMENT_FAIL:
+            return {
+                ...state, 
+                loading: false,
+                loan: false, 
+            }
         default: {
             return state
         }

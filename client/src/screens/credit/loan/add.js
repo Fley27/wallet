@@ -107,6 +107,7 @@ const Add = ({navigation, createLoan, selectLoan, GetUserDetail, ...props}) =>{
                                     setIncrement = {setIncrement}
                                     onChangeText = {setName}
                                     value = {name}
+                                    label = "lender"
                                 />
                             ): tab === 3?(
                                 <Email

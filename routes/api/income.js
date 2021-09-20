@@ -33,7 +33,7 @@ router.post("/", async (req, res)=>{
                 $unwind : "$data"
             },
         ]).exec(function(err, obj){
-            console.log(JSON.stringify(obj))
+          //  console.log(JSON.stringify(obj))
             return res.json({income: true, incomes: obj})
         })
     } catch (error) {

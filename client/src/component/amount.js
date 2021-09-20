@@ -12,7 +12,7 @@ const Amount = ({setIncrement, onChangeText, value}) =>{
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Enter an amount</Text>
+                    <Text style = {styles.label}>An amount</Text>
                     <TextInput 
                         style = {styles.textInput}
                         placeholder = "$ 650"

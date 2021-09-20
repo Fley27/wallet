@@ -7,12 +7,12 @@ import {
     KeyboardAvoidingView,
     StyleSheet} from "react-native";
 
-const Name = ({setDecrement, setIncrement, onChangeText, value}) =>{
+const Name = ({setDecrement, label, setIncrement, onChangeText, value}) =>{
     return(
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Enter the name of your lender</Text>
+                    <Text style = {styles.label}>Who is your {label} ?</Text>
                     <TextInput 
                         style = {styles.textInput}
                         placeholder = "John Doe"

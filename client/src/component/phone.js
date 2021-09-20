@@ -12,7 +12,7 @@ const Phone = ({setIncrement, setDecrement, onChangeText, value}) =>{
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Enter your phone number</Text>
+                    <Text style = {styles.label}>Your phone number</Text>
                     <TextInput 
                         style = {styles.textInput}
                         placeholder = "509 780 8099"

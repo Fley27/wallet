@@ -23,9 +23,38 @@ import {
     FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_SUCCESS,
     TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
     TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
-    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS,
+    PAYMENT_FAIL,
+    PAYMENT_REQUEST,
+    PAYMENT_SUCCESS
 } from "../consts";
 import axios from "axios";
+
+export const payLoan = (loanData) => async (dispatch) => {
+    const config = {
+        headers:{
+            "Content-Type": "application/json",
+        } 
+    }
+    dispatch({
+        type: PAYMENT_REQUEST
+    })
+    const body = loanData;
+    try {
+        const res = await axios.post(`${link}/loan/pay`, 
+            body,
+            config
+        )
+        dispatch({
+            type: PAYMENT_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        dispatch({
+            type: PAYMENT_FAIL
+        })
+    }
+}
 
 export const getTotalAmountTheLastSixMonthLoan = (loanData) => async (dispatch) => {
     const config = {

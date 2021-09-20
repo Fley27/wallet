@@ -1,6 +1,6 @@
 // Server Link
 
-export const link = "https://walletappmanagement.herokuapp.com/api";
+export const link = "http://localhost:5000/api";
 
 // Auth
 
@@ -222,4 +222,10 @@ export const DELETE_NOTIFICATION_FAIL = "DELETE_NOTIFICATION_FAIL";
 export const FILTER_NOTIFICATION_REQUEST = "FILTER_NOTIFICATION_REQUEST";
 export const FILTER_NOTIFICATION_SUCCESS = "FILTER_NOTIFICATION_SUCCESS";
 export const FILTER_NOTIFICATION_FAIL = "FILTER_NOTIFICATION_FAIL";
+
+//Pay 
+
+export const PAYMENT_REQUEST = "PAYMENT_REQUEST";
+export const PAYMENT_SUCCESS = "PAYMENT_SUCCESS";
+export const PAYMENT_FAIL = "PAYMENT_FAIL";
 

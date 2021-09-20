@@ -2,7 +2,7 @@ import React from "react";
 import {ActivityIndicator, Text, View, FlatList, StyleSheet} from "react-native";
 import ItemCredit from "./itemCredit";
 
-const ListCredit = ({navigation, link, isActivated, DATA, loading}) =>{
+const ListCredit = ({navigation, link, DATA, loading}) =>{
     return(
         <View style = {styles.container}> 
             {

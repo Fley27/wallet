@@ -100,11 +100,20 @@ router.post("/all", async (req, res)=>{
 
 // Fetch a specific loan 
 
-router.get("/one", async (req, res)=>{
+router.post("/pay", async (req, res)=>{
     try {
-        const {id} = req.body;
-        const loan = await Loan.findById(id);
-        return res.json(loan);
+        const {_id} = req.body;
+        console.log(_id)
+        date = new Date();
+        let outLimited = false;
+        const paidDate = date, status = true;
+        const credit = await Credit.findById(_id);
+        if(date > credit.expectedDate)
+            outLimited = true;
+        credit.set({paidDate, status,  outLimited}); 
+        await credit.save();
+        console.log(credit)
+        return res.json(credit);
     } catch (error) {
         console.log(`Server : ${error}`);
         return res.status(500).json({msg: `Server : ${error}`});

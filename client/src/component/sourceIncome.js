@@ -14,7 +14,7 @@ const SourceIncome = ({setDecrement, onChangeText, value, handleClick}) =>{
             <View style = {styles.container}>
                 <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                     <View style = {styles.viewContainer}>
-                        <Text style = {styles.label}>Source of your income</Text>
+                        <Text style = {styles.label}>Where did your money come from ?</Text>
                         <TextInput 
                             style = {styles.textInput}
                             placeholder = "Source of your money"

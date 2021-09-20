@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {
     Text, 
     View,
-    Pressable,
     KeyboardAvoidingView,
     StyleSheet,
     TouchableOpacity
@@ -23,7 +22,7 @@ const Type = ({setDecrement, setIncrement, types, selectItem, onChangeText}) =>{
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Choose your income's type</Text>
+                    <Text style = {styles.label}>Select</Text>
                     
                     <View style = {styles.buttonContainer}>
                         {

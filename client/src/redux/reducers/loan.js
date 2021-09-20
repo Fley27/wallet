@@ -22,7 +22,10 @@ import {
     FILTER_TOTAL_AMOUNT_LOAN_BY_CURRENCY_SUCCESS,
     TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL,
     TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_REQUEST,
-    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS
+    TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_SUCCESS,
+    PAYMENT_FAIL,
+    PAYMENT_REQUEST,
+    PAYMENT_SUCCESS
 } from "../consts";
 
 const initialState = {
@@ -54,13 +57,17 @@ export default function ( state = initialState, action) {
                 loadings: true,
                 loans: null
             }
-
+        case PAYMENT_REQUEST:
+            return {
+                ...state, 
+                loading: true,
+            }
         case SELECTED_LOAN_REQUEST: 
         case CREATE_LOAN_REQUEST:
             return {
                 ...state, 
                 loading: true,
-                loan: false,
+                loan: false, 
             }
 
         case DELETE_LOAN_REQUEST: {
@@ -85,6 +92,11 @@ export default function ( state = initialState, action) {
             }
 
         case SELECTED_LOAN_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                loan: payload
+            }
         
         case CREATE_LOAN_SUCCESS:
             return {
@@ -99,6 +111,12 @@ export default function ( state = initialState, action) {
                 ...state,
                 loading: false,
                 loans: payload
+            }
+        case PAYMENT_SUCCESS:
+            return {
+                ...state, 
+                loading: false,
+                loan: payload, 
             }
         case DELETE_LOAN_SUCCESS: {
             return{
@@ -135,6 +153,12 @@ export default function ( state = initialState, action) {
                 ...state,
                 loading: false,
                 loans: null,
+            }
+
+        case PAYMENT_FAIL:
+            return {
+                ...state, 
+                loading: false,
             }
         case DELETE_LOAN_FAIL: {
             return{

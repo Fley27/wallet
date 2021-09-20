@@ -12,7 +12,7 @@ const Email = ({setIncrement, setDecrement, onChangeText, value}) =>{
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Enter your email</Text>
+                    <Text style = {styles.label}>Your email</Text>
                     <TextInput 
                         style = {styles.textInput}
                         placeholder = "johndoe@gmail.com"

@@ -106,6 +106,7 @@ const Add = ({navigation, createBorrowing, selectBorrowing, GetUserDetail, ...pr
                                     setIncrement = {setIncrement}
                                     onChangeText = {setName}
                                     value = {name}
+                                    label = "borrower"
                                 />
                             ): tab === 3?(
                                 <Email

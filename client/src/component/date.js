@@ -13,7 +13,7 @@ const DateComponent = ({handleClick, setDecrement, date, setDate}) =>{
         <View style = {styles.container}>
             <KeyboardAvoidingView style = {styles.KeyboardAvoidingView}>
                 <View style = {styles.viewContainer}>
-                    <Text style = {styles.label}>Enter the expected date</Text>
+                    <Text style = {styles.label}>The expected date</Text>
                     <DatePicker
                         open={true}
                         date={date} 
