@@ -85,12 +85,15 @@ export default function ( state = initialState, action) {
             }
 
         case SELECTED_LOAN_SUCCESS:
+        
         case CREATE_LOAN_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                loan: payload
+                loan: payload.loan, 
+                loans: payload.loans
             }
+            
         case GET_LOAN_SUCCESS: 
             return {
                 ...state,
@@ -111,6 +114,7 @@ export default function ( state = initialState, action) {
                 loading: false,
                 loan: null
             }
+            
 
         case TOTAL_AMOUNT_OF_THE_LAST_SIX_MONTH_BY_CURRENCY_FAIL:
             return {

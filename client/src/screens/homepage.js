@@ -190,9 +190,10 @@ const Homepage = (props) =>{
                 </View>
                 <View style = {[styles.graphContainer, {shadowOpacity: 1}]}>
                     {
+                        
                         dataChart ? (
                             <BarChart
-                                data={dataChart.length ? dataChart : data_}
+                                data={dataChart ? dataChart : data_}
                                 width={screenWidth - 20}
                                 height={210}
                                 yAxisLabel={'$'}

@@ -41,8 +41,8 @@ const AddExpense = ({navigation, createExpense,selectExpense, GetUserDetail, ...
         setChangeCategory("");
         setChangeReason("");
         setChangeActivity("");
-        selectExpense(null);
         setTab(0);
+        selectExpense(null);
     }
 
     useEffect(() => {

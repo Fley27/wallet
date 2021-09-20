@@ -10,14 +10,40 @@ router.post("/", async (req, res)=>{
     try {
         const {amount, currency, name, phone, email, expectedDate, borrower} = req.body;
         const credit = new Credit({amount, name, currency, phone, email, expectedDate});
-        console.log(JSON.stringify("kkk"))
+
         await credit.save();
 
         if (!credit)
             return res.status(404).json({msg: " Process interrupted"});
-        const borrowing = new Borrowing({credit: credit._id, borrower});
-        await borrowing.save()
-        return res.json({credit, borrowing})
+        const borrowing_ = new Borrowing({credit: credit._id, borrower});
+        await borrowing_.save()
+        Credit.aggregate([
+            {
+                $lookup:{
+                    from: "borrowings",
+                    let: {id: "$_id"},
+                    pipeline: [
+                        { 
+                            $match: {
+                                $expr: { 
+                                    $and: [ 
+                                        {$eq: ["$borrower", ObjectId(borrower)]},
+                                        { $eq: [ "$credit", "$$id"]}
+                                    ] 
+                                }
+                            }
+                        }
+                    ],
+                    as: "data"
+                }
+            },
+            {
+                $unwind: "$data"
+            }
+        ]).exec(function(err, obj){
+            console.log(err)
+            return res.json({borrowing: obj, borrowings: obj});
+        })
     } catch (error) {
         console.log(`Server : ${error}`);
         return res.status(500).json({msg: `Server : ${error}`});

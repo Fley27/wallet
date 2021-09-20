@@ -42,7 +42,7 @@ const OperationHome = ({navigation, GetUserDetail, getExpense, getIncome, filter
                     if(searchBy === "amount"){
                         category = ["GIFT", "WORK PAID"];
                         if(amount_ > 0){
-                            amount = parseFlo(amount_);
+                            amount = parseFloat(amount_);
                         }
                     }else if(searchBy === "category"){
                         if(category_ === "ALL")
@@ -328,18 +328,18 @@ const styles = StyleSheet.create({
         alignContent: "center",
         marginLeft: 5
     },
-    listBodyCard: {
+    listBodyCard:{
         height: 20,
         backgroundColor: "rgb(230,230,230)",
         paddingLeft: 20,
         marginBottom: 30
     },
-    listTitleContainer: {
+    listTitleContainer:{
         height: "100%",
         justifyContent: "center",
         alignContent: "center"
     },
-    listTitle: {
+    listTitle:{
         fontSize: 20,
         fontWeight: "700",
         textAlign: "left",
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     },
     textInputList:{
         marginBottom: 20,
-        color: '#000',
+        color: '#000000',
         borderWidth: 2,
         borderRadius: 10,
         borderColor: '#FFF',
@@ -390,13 +390,13 @@ const styles = StyleSheet.create({
         width: 150,
         marginTop: 20,
     },
-    centeredView: {
+    centeredView:{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22
     },
-    modalView: {
+    modalView:{
         margin: 20,
         backgroundColor: "white",
         borderRadius: 5,
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         width: "80%",
     },
-    modalTitle: {
+    modalTitle:{
         fontSize: 14,
         fontWeight: "600",
         color: "#000",

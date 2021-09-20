@@ -83,12 +83,20 @@ export default function ( state = initialState, action) {
             }
 
         case SELECTED_INCOME_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                income: payload, 
+            }
+
         case CREATE_INCOME_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                income: payload
+                income: payload.income, 
+                incomes: payload.incomes
             }
+
         case GET_INCOME_SUCCESS: 
             return {
                 ...state,

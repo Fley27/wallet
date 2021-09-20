@@ -76,11 +76,18 @@ export default function ( state = initialState, action) {
             }
 
         case SELECTED_EXPENSE_SUCCESS:
-        case CREATE_EXPENSE_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 expense: payload
+            }
+
+        case CREATE_EXPENSE_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                expense: payload.expense, 
+                expenses: payload.expenses
             }
 
         case FILTER_TOTAL_AMOUNT_EXPENSE_BY_CURRENCY_SUCCESS:

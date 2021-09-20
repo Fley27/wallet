@@ -54,6 +54,7 @@ export default function ( state = initialState, action) {
                 loading: true,
                 borrowing: null,
             }
+            
         case GET_BORROWING_REQUEST:
             return {
                 ...state, 
@@ -75,13 +76,20 @@ export default function ( state = initialState, action) {
             }
 
         case SELECTED_BORROWING_SUCCESS:
-        case CREATE_BORROWING_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 borrowing: payload
             }
         
+        case CREATE_BORROWING_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                borrowing: payload.borrowing,
+                borrowings: payload.borrowings
+            }
+
         case FILTER_TOTAL_AMOUNT_BORROWING_BY_CURRENCY_SUCCESS:
             return {
                 ...state, 

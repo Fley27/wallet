@@ -15,7 +15,27 @@ router.post("/", async (req, res)=>{
             return res.status(404).json({msg: "Process interrupted"});
         const income = new Income({operation: operation, source});
         await income.save();
-        return res.json({operation,income})
+        Operation.aggregate([
+            {
+                $match: {
+                    user: ObjectId(user)
+                }
+            },
+            {
+                $lookup:{
+                    from: "incomes",
+                    localField: "_id",
+                    foreignField: "operation",
+                    as: "data"
+                }
+            },
+            {
+                $unwind : "$data"
+            },
+        ]).exec(function(err, obj){
+            console.log(JSON.stringify(obj))
+            return res.json(obj)
+        })
     } catch (error) {
         console.log(`Server : ${error}`);
         return res.status(500).json({msg: `Server : ${error}`});

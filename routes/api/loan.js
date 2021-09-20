@@ -19,7 +19,33 @@ router.post("/", async (req, res)=>{
         const loan = new Loan({credit: credit._id, lender});
         await loan.save()
         
-        return res.json({credit, loan})
+        Credit.aggregate([
+            {
+                $lookup:{
+                    from: "loans",
+                    let: {id: "$_id"},
+                    pipeline: [
+                        { 
+                            $match: {
+                                $expr: { 
+                                    $and: [ 
+                                        {$eq: ["$lender", ObjectId(lender)]},
+                                        { $eq: [ "$credit", "$$id"]}
+                                    ] 
+                                }
+                            }
+                        }
+                    ],
+                    as: "data"
+                }
+            },
+            {
+                $unwind: "$data"
+            }
+        ]).exec(function(err, obj){
+            console.log(err);
+            return res.json({loan: obj, loans: obj})
+        })
     } catch (error) {
         console.log(`Server : ${error}`);
         return res.status(500).json({msg: `Server : ${error}`});

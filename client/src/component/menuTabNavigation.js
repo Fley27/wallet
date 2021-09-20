@@ -1,15 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {TouchableOpacity} from 'react-native';
 import HomepageScreen from '../screens/homepage';
 import OperationNavigation from "./operationNavigation";
 import CreditNavigation from './creditNavigation';
-import SettingsNavigation from './settingsNavigation';
-import NavigationDrawerHeader from './navigationDrawerHeader';
+import NotificationNavigation from './notificationNavigation';
 import HomeIcon from '../icons/home.tsx';
 import IncomeIcon from '../icons/income.tsx';
 import ExpenseIcon from '../icons/expense.tsx';
-import SettingsIcon from "../icons/settingsIcon.tsx";
+import NotificationIcon from "../icons/notification.tsx"
 
 const Tab = createBottomTabNavigator();
 
@@ -26,11 +24,6 @@ const MenuTabNavigation = () => {
                 
                 options={({route, navigation}) => ({
                     title: 'Dashboard', //Set Header Title
-                    headerRight: () => (
-                        <TouchableOpacity >
-                            <NavigationDrawerHeader navigation = {navigation}/>
-                        </TouchableOpacity>
-                    ),
                     headerStyle: {
                       backgroundColor: '#A52A2A', //Set Header color
                     },
@@ -78,7 +71,7 @@ const MenuTabNavigation = () => {
                     },
                 }}
             />
-            <Tab.Screen
+            <Tab.Screen 
                 name="Credit"
                 component={CreditNavigation}
                 options={{
@@ -100,8 +93,8 @@ const MenuTabNavigation = () => {
                 }}
             />
             <Tab.Screen
-                name="Settings"
-                component={SettingsNavigation}
+                name="Notification"
+                component={NotificationNavigation}
                 options={{
                     headerShown: false,
                     tabBarLabel: "",
@@ -111,9 +104,9 @@ const MenuTabNavigation = () => {
                     
                     tabBarIcon: (tabInfo) => {
                         return (
-                            <SettingsIcon
-                                width = {30}
-                                height = {30}
+                            <NotificationIcon
+                                width = {25}
+                                height = {25}
                                 color={tabInfo.focused ? "#A52A2A" : "#C0C0C0"}
                             />
                         );

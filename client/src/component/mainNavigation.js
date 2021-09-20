@@ -28,11 +28,6 @@ const MainNavigation = () => {
                     component={MenuTabNavigation}
                     options={{headerShown: false}}
                 />
-                <Stack.Screen
-                    name="Notification"
-                    component={NotificationNavigation}
-                    options={{headerShown: false}}
-                />
             </Stack.Navigator>            
         </NavigationContainer>
     );
