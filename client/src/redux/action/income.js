@@ -27,6 +27,8 @@ import {
 } from "../consts";
 import axios from "axios";
 
+import { setAlert } from "./alert";
+
 export const getTotalAmountTheLastSixMonthIncome = (incomeData) => async (dispatch) => {
     const config = {
         headers:{
@@ -99,10 +101,12 @@ export const createIncome = (incomeData) => async (dispatch) => {
             type: CREATE_INCOME_SUCCESS,
             payload: res.data
         })
+        dispatch(setAlert("Added", "success"));
     } catch (error) {
         dispatch({
             type: CREATE_INCOME_FAIL
         })
+        dispatch(setAlert("Failed", "error"));
     }
 }
 

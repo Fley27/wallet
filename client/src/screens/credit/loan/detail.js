@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
         width: "100%",
         flex: 1,
         alignItems: "center",
-        justifyContent: "center",
         backgroundColor: "rgb(230,230,230)"
     },
     headerContainer:{

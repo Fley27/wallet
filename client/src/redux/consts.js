@@ -1,6 +1,11 @@
 // Server Link
 
-export const link = "http://localhost:5000/api";
+export const link = "https://walletappmanagement.herokuapp.com/api";
+
+//Alert 
+
+export const SET_ALERT = "SET_ALERT";
+export const  REMOVE_ALERT = " REMOVE_ALERT";
 
 // Auth
 

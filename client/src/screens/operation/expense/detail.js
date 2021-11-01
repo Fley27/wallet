@@ -67,9 +67,6 @@ const Detail = (props) => {
                     }
                 </View>
                 <View style = {styles.buttonContainer}>
-                    <TouchableOpacity style = {styles.button}>
-                        <Text style = {styles.buttonText}>EDIT</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity
                         onPress = {()=>setModalVisible()}
                         style = {styles.button}

@@ -4,7 +4,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Connection from './connection.js';
 import MenuTabNavigation from './menuTabNavigation';
-import NotificationNavigation from './notificationNavigation';
 
 
 const Stack = createStackNavigator();

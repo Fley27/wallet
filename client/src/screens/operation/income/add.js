@@ -49,7 +49,6 @@ const AddIncome = ({navigation, createIncome, GetUserDetail, selectIncome, ...pr
         if(props.income.income){
             setShow(true);
         }
-        alert(JSON.stringify(props.income.income));
     }, [props.income.income])
 
     const setIncrement = () =>{
